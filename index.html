@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        body{
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-image: linear-gradient(to right,#a5dee5,#ffcfdf);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #main{
+            width: 300px;
+            height: 400px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: all 0.3s;
+        }
+        #main:hover{
+            transform: rotateY(180deg);
+        }
+        #login,
+        #regist{
+            position: absolute;
+            top:0;left: 0;right: 0;bottom: 0;
+            background-color: white;
+            border-radius: 8px;
+        }
+        #regist{
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div id="login">
+
+        </div>
+        <div id="regist">
+    
+        </div>
+    </div>
+</body>
+</html>
