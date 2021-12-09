@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>主页面</title>
     <style>
         *{
             padding: 0;
@@ -26,9 +26,6 @@
             transform-style: preserve-3d;
             transition: all 0.3s;
         }
-        /* #main:hover{
-            transform: rotateY(180deg);
-        } */
         #login,
         #regist{
             position: absolute;
@@ -41,6 +38,7 @@
             align-items: center;
         }
         #regist{
+            display: none;
             transform: rotateY(180deg);
         }
         h2{
@@ -73,6 +71,7 @@
             transition: all 0.3s;
         }
         button:hover{
+            cursor: pointer;
             background-color: black;
             color: white;
         }
@@ -95,20 +94,121 @@
     </style>
 </head>
 <body>
-    <input type="checkbox" id="regi" hidden>
+    <input type="checkbox" id="regi" onclick="switchPage();" hidden>
     <div id="main">
         <div id="login">
             <h2>登录</h2>
-            <input type="text" placeholder="用户名">
-            <input style="margin-top: 1rem;" type="password" placeholder="密码">
-            <button>登录</button>
+            <input id="loginID" type="text" placeholder="用户名">
+            <input id="loginPWD" style="margin-top: 1rem;" type="password" placeholder="密码">
+            <button onclick="loginAccount()">登录</button>
             <label for="regi">
                 <span id="goRegist">前往注册</span>
             </label>
         </div>
         <div id="regist">
             <h2>注册</h2>
+            <input id="registID" type="text" placeholder="用户名">
+            <input id="registPWD" style="margin-top: 1rem;" type="password" placeholder="密码">
+            <input id="registConfPWD" style="margin-top: 1rem;" type="password" placeholder="确认密码">
+            <button onclick="registAccount()">注册</button>
+            <label for="regi">
+                <span id="goRegist">前往登录</span>
+            </label>
         </div>
     </div>
+    <script>
+        var login = document.getElementById("login")
+        var regist = document.getElementById("regist")
+        var main = document.getElementById("main")
+        var now = 1;
+        function switchPage()
+        {
+            if(now == 1){
+                login.style.display = "none"
+                regist.style.display = "flex"
+                main.style.height = "500px"
+                now = 0
+                return
+            }
+            login.style.display = "flex"
+            regist.style.display = "none"
+            main.style.height = "400px"
+            now = 1
+        }
+    </script>
+    <script>
+        var accounts = []
+        /*注册功能*/
+        //创建新的账号
+        var registID = document.getElementById("registID")
+        var registPWD = document.getElementById("registPWD")
+        var registConfPWD = document.getElementById("registConfPWD")
+        function getNewAccount(id,pwd){
+            var obj = new Object;
+            obj.id = id
+            obj.password = pwd
+            return obj
+        }
+        function registAccount(){
+            console.log(registID.value)
+            if(registPWD.value != registConfPWD.value){
+                alert("两次的密码不一致")
+                return -1;
+            }
+            var resu = addAccount(registID.value,registPWD.value);
+            if(resu==1){
+                alert("注册成功")
+                registID.value = ""
+                registPWD.value = ""
+                registConfPWD.value = ""
+                $("#regi")[0].click()
+                console.log(accounts);
+                return 1;
+            }
+            alert("注册失败")
+            return -1;
+        }
+        function addAccount(id, pwd)
+        {
+            if(check(id)&&check(pwd)){
+                var b = getNewAccount(id,pwd)
+                accounts.push(b)
+                return 1;
+            }
+            return -1;
+        }
+        function check(token){
+            if(token.length<8){
+                return -1;
+                console.log("<8");
+            }
+            return 1
+        }
+    </script>
+    <script>
+        /*登录功能*/
+        function $(n){
+            return document.querySelectorAll(n)
+        }
+        function loginAccount(){
+            var ID = $("#loginID")[0].value
+            var pwd = $("#loginPWD")[0].value
+            if(searchAccounts(ID,pwd)==1){
+                alert("登录成功")
+                window.location.href="blog.html"
+                return 1;
+            }
+            alert("密码或用户名错误")
+            return -1;
+        }
+        function searchAccounts(id,pwd){
+            for(var i = 0;i<accounts.length;i++){
+                if(accounts[i].id == id&&accounts[i].password == pwd){
+                    return 1;
+                }
+            }
+            return -1;
+        }
+    </script>
 </body>
 </html>
