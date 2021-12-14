@@ -11,54 +11,75 @@
             padding: 0;
         }
         body{
-            height: 6000px;
+            height: 12000px;
         }
-        #damakus{
+        .a1{
             position: fixed;
-            width: 100vw;
-            height: 100vh;
-            top: 0;
-            left: 0;
+            top: 0;left: 100vw;right: 0;bottom: 0;
+            background-color: blue;
         }
-        .damaku{
+        .l{
             position: fixed;
-            
+            top: 0;left: 0;right: 100vw;bottom: 0;
         }
     </style>
 </head>
 <body>
+    <div class="a1" style="background-color:blue"></div>
+    <div class="a1 l" style="background-color:orange"></div>
+    <div class="a1" style="background-color:purple"></div>
+    <div class="a1 l" style="background-color:rgb(110, 228, 198)"></div>
+    <div class="a1" style="background-color:rgb(236, 89, 89)"></div>
+    <div class="a1 l" style="background-color:rgb(72, 253, 0)"></div>
     <script src="./animation.js"></script>
-    <div id="damakus">
-
-    </div>
     <script>
-        //滚动页面动画定义
-        scroll_KEYFRAME_anis.push(
-            
+        function $(e){return document.getElementById(e)}
+        function $c(e){return document.getElementsByClassName(e)}
+        var a1 = $c("a1")
+        var p1 = create_LINEAR_ANIMATION(
+            callback=a1left,pre="",suf="px",
+            keyframs=[{r:0,y:vw},{r:400,y:0}]
         )
-        var info = [
-            "66666","陈子兴","文一乐","戴家泓","乐子文"
-        ]
-        var damakus = document.getElementById("damakus")
-        for(var i = 0;i<100;i++){
-            var nn = document.createElement("span")
-            var ranText = Math.floor(Math.random()*info.length)
-            var ranTop = Math.floor(Math.random()*vh)
-            var ranLeft = Math.floor(Math.random()*vw)
-            var ranSize = Math.floor(Math.random()*40+10)
-            nn.innerHTML = info[ranText]
-            nn.className = "damaku"
-            nn.style.top = ranTop+"px"
-            nn.style.left = ranLeft+"px"
-            nn.style.fontSize = ranSize+"px"
-            damakus.append(nn)
-            var l = create_LINEAR_ANIMATION(
-
-            )
-            l.element = nn
-            scroll_KEYFRAME_anis.push(
-                
-            )
+        var p2 = create_LINEAR_ANIMATION(
+            callback=a1right,pre="",suf="px",
+            keyframs=[{r:400,y:0},{r:1000,y:vw}]
+        )
+        var p3 = create_LINEAR_ANIMATION(
+            callback=a1lleft,pre="",suf="px",
+            keyframs=[{r:800,y:vw},{r:1200,y:0}]
+        )
+        var p4 = create_LINEAR_ANIMATION(
+            callback=a1lright,pre="",suf="px",
+            keyframs=[{r:1200,y:0},{r:1800,y:vw}]
+        )
+        p1.element = a1
+        p2.element = a1
+        p3.element = a1
+        p4.element = a1
+        console.log(a1);
+        scroll_KEYFRAME_anis.push(p1)
+        scroll_KEYFRAME_anis.push(p2)
+        scroll_KEYFRAME_anis.push(p3)
+        scroll_KEYFRAME_anis.push(p4)
+        function a1left(e,r,b,o){
+            for(var i = 0;i<e.length;i+=2){
+                e[i].style.left = o.get(o,scrollTop-i*1000)+"px"
+            }
+        }
+        function a1right(e,r,b,o){
+            for(var i = 0;i<e.length;i+=2){
+                e[i].style.right = o.get(o,scrollTop-i*1000)+"px"
+            }
+        }
+        function a1lleft(e,r,b,o){
+            for(var i = 1;i<e.length;i+=2){
+                e[i].style.right = o.get(o,scrollTop-(i-1)*1000)+"px"
+            }
+        }
+        function a1lright(e,r,b,o){
+            for(var i = 1;i<e.length;i+=2){
+                e[i].style.left = o.get(o,scrollTop-(i-1)*1000)+"px"
+            }
         }
     </script>
 </body>
