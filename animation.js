@@ -60,6 +60,7 @@ function create_LINEAR_ANIMATION(callback,pre='',suf='',keyframs){
     obj.suf = suf
     obj.intervalI = 0
     obj.value = 0
+    obj.element = null
     obj.get = (o,r)=>{
         if(o.KEYFRAMEs.length==1){
             o.intervalI = 0
@@ -100,7 +101,7 @@ function create_LINEAR_ANIMATION(callback,pre='',suf='',keyframs){
     obj.update = (o,r)=>{
         var b=o.get(o,r)
         var a = pre+b+suf
-        o.callback(a,b,o)
+        o.callback(element,a,b,o)
     }
     return obj
 }

@@ -5,16 +5,60 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            height: 6000px;
+        }
+        #damakus{
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+        }
+        .damaku{
+            position: fixed;
+            
+        }
+    </style>
 </head>
 <body>
     <script src="./animation.js"></script>
+    <div id="damakus">
+
+    </div>
     <script>
+        //滚动页面动画定义
         scroll_KEYFRAME_anis.push(
-            create_LINEAR_ANIMATION()
+            
         )
+        var info = [
+            "66666","陈子兴","文一乐","戴家泓","乐子文"
+        ]
+        var damakus = document.getElementById("damakus")
+        for(var i = 0;i<100;i++){
+            var nn = document.createElement("span")
+            var ranText = Math.floor(Math.random()*info.length)
+            var ranTop = Math.floor(Math.random()*vh)
+            var ranLeft = Math.floor(Math.random()*vw)
+            var ranSize = Math.floor(Math.random()*40+10)
+            nn.innerHTML = info[ranText]
+            nn.className = "damaku"
+            nn.style.top = ranTop+"px"
+            nn.style.left = ranLeft+"px"
+            nn.style.fontSize = ranSize+"px"
+            damakus.append(nn)
+            var l = create_LINEAR_ANIMATION(
 
-        function block(r){
-
+            )
+            l.element = nn
+            scroll_KEYFRAME_anis.push(
+                
+            )
         }
     </script>
 </body>
