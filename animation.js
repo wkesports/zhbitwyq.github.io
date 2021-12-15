@@ -4,6 +4,10 @@ setInterval(()=>{
     vw = document.documentElement.clientWidth
 },500)
 window.onload=()=>{
+    scrollTop = document.documentElement.scrollTop;
+        for(var i=0;i<scroll_KEYFRAME_anis.length;i++){
+            scroll_KEYFRAME_anis[i].update(scroll_KEYFRAME_anis[i],scrollTop)
+        }
     /*滚动页面动画*/
     window.onscroll = ()=>{
         scrollTop = document.documentElement.scrollTop;
