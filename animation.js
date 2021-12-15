@@ -5,9 +5,9 @@ setInterval(()=>{
 },500)
 window.onload=()=>{
     scrollTop = document.documentElement.scrollTop;
-        for(var i=0;i<scroll_KEYFRAME_anis.length;i++){
-            scroll_KEYFRAME_anis[i].update(scroll_KEYFRAME_anis[i],scrollTop)
-        }
+    for(var i=0;i<scroll_KEYFRAME_anis.length;i++){
+        scroll_KEYFRAME_anis[i].update(scroll_KEYFRAME_anis[i],scrollTop)
+    }
     /*滚动页面动画*/
     window.onscroll = ()=>{
         scrollTop = document.documentElement.scrollTop;
@@ -31,6 +31,10 @@ window.onload=()=>{
 window.onresize=()=>{
     vh = document.documentElement.clientHeight
     vw = document.documentElement.clientWidth
+    scrollTop = document.documentElement.scrollTop;
+    for(var i=0;i<scroll_KEYFRAME_anis.length;i++){
+        scroll_KEYFRAME_anis[i].update(scroll_KEYFRAME_anis[i],scrollTop)
+    }
     console.log('change size:(%d,%d)',vw,vh);
 }
 function lerp(a,amax,lerpA,lerpB){
