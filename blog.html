@@ -94,6 +94,7 @@
             -moz-user-select: none;
             -webkit-user-select: none;
             font-family: "黑体";
+            color: white;
         }
         #mainCont1{
             width: 70%;
@@ -102,13 +103,20 @@
             background-color: white;
             box-shadow: 0 0 60px #AAAAAA;
             height: 2000px;
+            position: relative;
         }
         #about{
             position: fixed;
             top: 0;left: 0;right: 0;bottom: 0;
             background-color: white;
             transition: all 0.3s;
-            z-index: 7;
+            z-index: 9;
+        }
+        #bigwhite{
+            position: fixed;
+            top:0;left: 0;right: 0;bottom: 0;
+            background-color: #bbded6;
+            opacity: 0;
         }
     </style>
 </head>
@@ -137,20 +145,28 @@
             <h1>榴莲酥</h1>
         </div>
     </div>
-    <div class="a1" style="background-color:#ffc8c8"></div>
-    <div class="a1 l" style="background-color:#bbded6"></div>
+    <div class="a1" style="background-color:#ffc8c8">
+        <img src="./images/sm.jpg" alt="">
+        <div>
+            <h1>干蒸烧麦</h1>
+        </div>
+    </div>
+    <div class="a1 l" style="background-color:#bbded6">
+        <img src="./images/big.jpg" style="width: 100%;height: auto;border-radius: 0;" alt="">
+    </div>
     <div id="navigator">
         <div style="margin-left: 2rem;" class="nagivator_item" onclick="window.location.href='#'">首页</div>
         <div class="nagivator_item">订购</div>
         <div class="nagivator_item">介绍</div>
         <div class="nagivator_item" onclick="aboutDis()">关于</div>
     </div>
+    <div id="bigwhite"></div>
     <div id="mainText">早茶</div>
-    <div id="mainCont1"></div>
-
-    <div id="about" style="opacity: 0">
+    <div id="mainCont1">
 
     </div>
+
+    <div id="about" style="opacity: 0"></div>
 
     <script src="./animation.js"></script>
     <script>
@@ -171,6 +187,7 @@
         var mainText = $("mainText")
         var mainCont1 = $("mainCont1")
         var about = $("about")
+        var bigwhite = $("bigwhite")
     </script>
     <script>
         //Init
@@ -190,6 +207,9 @@
         }
         function navigator_pos(e,r){
             nav.style.top = r[0]
+        }
+        function big2white(e,r){
+            e.style.opacity = r[0]
         }
         function mainTextFontSize(e,r){
             mainText.style.display = r[0]
@@ -215,15 +235,21 @@
             callback=mainTextFontSize,pre="",suf="",
             keyframs=[{r:0,y:["none",100,1]},{r:4500,y:["block",100,0]},{r:6200,y:["block",1,1]},{r:6800,y:["none",1,0]}]
         )
+        var big2whiteAni = create_LINEAR_ANIMATION(
+            callback=big2white,pre="",suf="",
+            keyframs=[{r:7000,y:[0]},{r:7800,y:[1]}]
+        )
         p1.element = a1
         p2.element = a1
         mainTextFontSizeAni.element = mainText
         nav_top.element = nav
+        big2whiteAni.element = bigwhite
 
         scroll_KEYFRAME_anis.push(p1)
         scroll_KEYFRAME_anis.push(p2)
         scroll_KEYFRAME_anis.push(nav_top)
         scroll_KEYFRAME_anis.push(mainTextFontSizeAni)
+        scroll_KEYFRAME_anis.push(big2whiteAni)
 
     </script>
 </body>
