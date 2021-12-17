@@ -22,6 +22,7 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
+            transform: scale(1);
         }
         .a1>img{
             width: 30%;
@@ -67,16 +68,20 @@
             padding: 0 1rem;
             transition: all 0.3s;
             cursor: none;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            font-family: "等线";
+            font-size: large;
         }
         .nagivator_item:hover{
             cursor: pointer;
             background: darkgray;
         }
         #mainText{
-            width: 100vw;
-            height: 100vh;
+            top: 0;right: 0;left: 0;bottom: 0;
             position: fixed;
-            z-index: 6;
+            z-index: 9;
             text-align: center;
             line-height: 100vh;
             font-size: 150px;
@@ -84,6 +89,18 @@
             word-break: keep-all;
             opacity: 1;
             display: none;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            font-family: "黑体";
+        }
+        #mainCont1{
+            width: 70%;
+            margin: 0 auto;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 0 60px #AAAAAA;
+            height: 2000px;
         }
     </style>
 </head>
@@ -115,7 +132,7 @@
     <div class="a1" style="background-color:#ffc8c8"></div>
     <div class="a1 l" style="background-color:#bbded6"></div>
     <div id="navigator">
-        <div style="margin-left: 2rem;" class="nagivator_item">首页</div>
+        <div style="margin-left: 2rem;" class="nagivator_item" onclick="window.location.href='#'">首页</div>
         <div class="nagivator_item">产品</div>
         <div class="nagivator_item">介绍</div>
         <div class="nagivator_item">关于</div>
@@ -123,7 +140,7 @@
     <div id="mainText">
         早茶
     </div>
-    <div id=""></div>
+    <div id="mainCont1"></div>
 
     <script src="./animation.js"></script>
     <script>
@@ -133,6 +150,11 @@
         var a1 = $c("a1")
         var nav = $("navigator")
         var mainText = $("mainText")
+        var mainCont1 = $("mainCont1")
+    </script>
+    <script>
+        //Init
+        mainCont1.style.marginTop = (7200 + vh) + "px"
     </script>
     <script>
         //回调函数
@@ -158,11 +180,11 @@
     <script>
         //创建动画
         var p1 = create_LINEAR_ANIMATION(
-            callback=a1left,pre="",suf="px",
+            callback=a1left,pre="",suf="",
             keyframs=[{r:0,y:[-vw-30]},{r:400,y:[0]}]
         )
-        var p4 = create_LINEAR_ANIMATION(
-            callback=a1lright,pre="",suf="px",
+        var p2 = create_LINEAR_ANIMATION(
+            callback=a1lright,pre="",suf="",
             keyframs=[{r:1200,y:[vw+30]},{r:1800,y:[0]}]
         )
         var nav_top = create_LINEAR_ANIMATION(
@@ -173,16 +195,13 @@
             callback=mainTextFontSize,pre="",suf="",
             keyframs=[{r:0,y:["none",100,1]},{r:4500,y:["block",100,0]},{r:6200,y:["block",1,1]},{r:6800,y:["none",1,0]}]
         )
-        // var mainText = create_LINEAR_ANIMATION(
-        //     callback=
-        // )
         p1.element = a1
-        p4.element = a1
+        p2.element = a1
         mainTextFontSizeAni.element = mainText
         nav_top.element = nav
 
         scroll_KEYFRAME_anis.push(p1)
-        scroll_KEYFRAME_anis.push(p4)
+        scroll_KEYFRAME_anis.push(p2)
         scroll_KEYFRAME_anis.push(nav_top)
         scroll_KEYFRAME_anis.push(mainTextFontSizeAni)
     </script>
