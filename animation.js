@@ -20,13 +20,16 @@ window.onload=()=>{
     var t = setInterval(()=>{
         for(var i=0;i<timer_KEYFRAME_anis.length;i++){
             timer_KEYFRAME_anis[i].update(timer_KEYFRAME_anis[i],timer)
+            if(timer_KEYFRAME_anis[i].KEYFRAMEs[timer_KEYFRAME_anis[i].KEYFRAMEs.length-1].r<timer){
+                timer_KEYFRAME_anis.splice(i,1)
+            }
         }
 
-        timer+=0.01
+        timer+=0.0167
         if(timer>8){
             clearInterval(t)
         }
-    },10)
+    },16.7)
 }
 window.onresize=()=>{
     vh = document.documentElement.clientHeight

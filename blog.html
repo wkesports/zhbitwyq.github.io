@@ -103,6 +103,13 @@
             box-shadow: 0 0 60px #AAAAAA;
             height: 2000px;
         }
+        #about{
+            position: fixed;
+            top: 0;left: 0;right: 0;bottom: 0;
+            background-color: white;
+            transition: all 0.3s;
+            z-index: 7;
+        }
     </style>
 </head>
 <body>
@@ -134,16 +141,27 @@
     <div class="a1 l" style="background-color:#bbded6"></div>
     <div id="navigator">
         <div style="margin-left: 2rem;" class="nagivator_item" onclick="window.location.href='#'">首页</div>
-        <div class="nagivator_item">产品</div>
+        <div class="nagivator_item">订购</div>
         <div class="nagivator_item">介绍</div>
-        <div class="nagivator_item">关于</div>
+        <div class="nagivator_item" onclick="aboutDis()">关于</div>
     </div>
-    <div id="mainText">
-        早茶
-    </div>
+    <div id="mainText">早茶</div>
     <div id="mainCont1"></div>
 
+    <div id="about" style="opacity: 0">
+
+    </div>
+
     <script src="./animation.js"></script>
+    <script>
+        function aboutDis(){
+            if($("about").style.opacity==1){
+                $("about").style.opacity=0
+                return;
+            }
+            $("about").style.opacity=1
+        }
+    </script>
     <script>
         //获取对象
         function $(e){return document.getElementById(e)}
@@ -152,6 +170,7 @@
         var nav = $("navigator")
         var mainText = $("mainText")
         var mainCont1 = $("mainCont1")
+        var about = $("about")
     </script>
     <script>
         //Init
