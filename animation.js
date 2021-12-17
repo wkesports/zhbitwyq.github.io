@@ -15,20 +15,25 @@ window.onload=()=>{
             scroll_KEYFRAME_anis[i].update(scroll_KEYFRAME_anis[i],scrollTop)
         }
     }
-    
+    var last = 0
     /*时间流逝动画*/
     var t = setInterval(()=>{
+        var delta
         for(var i=0;i<timer_KEYFRAME_anis.length;i++){
             timer_KEYFRAME_anis[i].update(timer_KEYFRAME_anis[i],timer)
             if(timer_KEYFRAME_anis[i].KEYFRAMEs[timer_KEYFRAME_anis[i].KEYFRAMEs.length-1].r<timer){
                 timer_KEYFRAME_anis.splice(i,1)
             }
         }
-
-        timer+=0.0167
-        if(timer>8){
-            clearInterval(t)
+        if(last==0){
+            last = new Date().valueOf()
+            delta = 16.67
+        }else{
+            var l = new Date().valueOf()
+            delta = l - last
+            last = l
         }
+        timer+=delta/1000
     },16.7)
 }
 window.onresize=()=>{
