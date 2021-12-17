@@ -70,45 +70,52 @@ function create_LINEAR_ANIMATION(callback,pre='',suf='',keyframs){
     obj.value = 0
     obj.element = null
     obj.get = (o,r)=>{
-        if(o.KEYFRAMEs.length==1){
-            o.intervalI = 0
-            // o.value = o.KEYFRAMEs[0].y
-            return o.KEYFRAMEs[0].y
-        }
-        if(r<o.KEYFRAMEs[0].r){
-            o.intervalI = 0
-            // o.value = o.KEYFRAMEs[0].y
-            return o.KEYFRAMEs[0].y
-        }
-        if(r>=o.KEYFRAMEs[o.KEYFRAMEs.length-1].r){
-            o.intervalI = o.KEYFRAMEs.length-1
-            // o.value = o.KEYFRAMEs[o.KEYFRAMEs.length-1].y
-            return o.KEYFRAMEs[o.KEYFRAMEs.length-1].y
-        }
-        var intervalI = -1
-        for(var i = 0;i<o.KEYFRAMEs.length-1;i++){
-            if(r>=o.KEYFRAMEs[i].r&&r<o.KEYFRAMEs[i+1].r){
-                intervalI = i
-                break
+        var keys_new = new Array()
+        for(var keys = 0;keys<o.KEYFRAMEs[0].y.length;keys++){
+            if(o.KEYFRAMEs.length==1){
+                o.intervalI = 0
+                keys_new.push(o.KEYFRAMEs[0].y[keys])
+                continue
             }
-        }
-        o.intervalI = intervalI
-        var b
-        if(lerpable(o.KEYFRAMEs[intervalI].y)){
-            b = lerp(r-o.KEYFRAMEs[intervalI].r,
-                            o.KEYFRAMEs[intervalI+1].r-o.KEYFRAMEs[intervalI].r,
-                            o.KEYFRAMEs[intervalI].y,
-                            o.KEYFRAMEs[intervalI+1].y
-            )
-        }else{
-            b = o.KEYFRAMEs[intervalI].y
+            if(r<o.KEYFRAMEs[0].r){
+                o.intervalI = 0
+                keys_new.push(o.KEYFRAMEs[0].y[keys])
+                continue
+            }
+            if(r>=o.KEYFRAMEs[o.KEYFRAMEs.length-1].r){
+                o.intervalI = o.KEYFRAMEs.length-1
+                keys_new.push(o.KEYFRAMEs[o.KEYFRAMEs.length-1].y[keys])
+                continue
+            }
+            var intervalI = -1
+            for(var i = 0;i<o.KEYFRAMEs.length-1;i++){
+                if(r>=o.KEYFRAMEs[i].r&&r<o.KEYFRAMEs[i+1].r){
+                    intervalI = i
+                    break
+                }
+            }
+            o.intervalI = intervalI
+            var b
+            if(lerpable(o.KEYFRAMEs[intervalI].y[keys])){
+                b = lerp(r-o.KEYFRAMEs[intervalI].r,
+                                o.KEYFRAMEs[intervalI+1].r-o.KEYFRAMEs[intervalI].r,
+                                o.KEYFRAMEs[intervalI].y[keys],
+                                o.KEYFRAMEs[intervalI+1].y[keys]
+                )
+            }else{
+                b = o.KEYFRAMEs[intervalI].y[keys]
+            }
+            keys_new.push(b)
         }
         // o.value = b
-        return b
+        return keys_new
     }
     obj.update = (o,r)=>{
+        var a = new Array()
         var b=o.get(o,r)
-        var a = pre+b+suf
+        for(var i = 0;i<b.length;i++){
+            a.push(pre+b[i]+suf)
+        }
         o.callback(o.element,a,b,o)
     }
     return obj
