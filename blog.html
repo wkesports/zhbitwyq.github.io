@@ -24,7 +24,7 @@
             top: 0;left: 0;right: 100vw;bottom: 0;
         }
         #navigator{
-            z-index: 3;
+            z-index: 999;
             position: fixed;
             top: -3rem;left: 0;
             backdrop-filter: blur(2rem);
@@ -54,6 +54,19 @@
             cursor: pointer;
             background: darkgray;
         }
+        #mainText{
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            z-index: 6;
+            text-align: center;
+            line-height: 100vh;
+            font-size: 150px;
+            transform: scale(6);
+            word-break: keep-all;
+            opacity: 1;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -71,6 +84,10 @@
         <div class="nagivator_item">介绍</div>
         <div class="nagivator_item">关于</div>
     </div>
+    <div id="mainText">
+        早茶
+    </div>
+    <div id=""></div>
 
     <script src="./animation.js"></script>
     <script>
@@ -79,6 +96,7 @@
         function $c(e){return document.getElementsByClassName(e)}
         var a1 = $c("a1")
         var nav = $("navigator")
+        var mainText = $("mainText")
     </script>
     <script>
         //回调函数
@@ -105,6 +123,11 @@
         function navigator_pos(e,r){
             nav.style.top = r[0]
         }
+        function mainTextFontSize(e,r){
+            mainText.style.display = r[0]
+            mainText.style.transform = "scale("+r[1]+")"
+            mainText.style.opacity = r[2]
+        }
     </script>
     <script>
         //创建动画
@@ -126,12 +149,20 @@
         )
         var nav_top = create_LINEAR_ANIMATION(
             callback=navigator_pos,pre="",suf="px",
-            keyframs=[{r:0,y:[-3*_rem]},{r:5200,y:[-3*_rem]},{r:5400,y:[0]}]
+            keyframs=[{r:0,y:[-3*_rem]},{r:5200,y:[-3*_rem]},{r:6000,y:[0]}]
         )
+        var mainTextFontSizeAni = create_LINEAR_ANIMATION(
+            callback=mainTextFontSize,pre="",suf="",
+            keyframs=[{r:0,y:["none",100,1]},{r:3600,y:["block",100,1]},{r:5400,y:["block",1,1]},{r:6200,y:["none",1,0]}]
+        )
+        // var mainText = create_LINEAR_ANIMATION(
+        //     callback=
+        // )
         p1.element = a1
         p2.element = a1
         p3.element = a1
         p4.element = a1
+        mainTextFontSizeAni.element = mainText
         nav_top.element = nav
 
         scroll_KEYFRAME_anis.push(p1)
@@ -139,6 +170,7 @@
         scroll_KEYFRAME_anis.push(p3)
         scroll_KEYFRAME_anis.push(p4)
         scroll_KEYFRAME_anis.push(nav_top)
+        scroll_KEYFRAME_anis.push(mainTextFontSizeAni)
     </script>
 </body>
 </html>
