@@ -104,19 +104,46 @@
             box-shadow: 0 0 60px #AAAAAA;
             height: 2000px;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            overflow: hidden;
         }
         #about{
             position: fixed;
             top: 0;left: 0;right: 0;bottom: 0;
             background-color: white;
             transition: all 0.3s;
-            z-index: 9;
+            z-index: -1;
         }
         #bigwhite{
             position: fixed;
             top:0;left: 0;right: 0;bottom: 0;
-            background-color: #f38181;
+            background-color: #e3fdfd;
             opacity: 0;
+        }
+        #mainCont1>#pin{
+            width: 10px;height: 10px;
+            box-shadow: 0 0 5px #444444;
+            border-radius: 50%;
+            margin-top: 30px;
+            background-color: #393e46;
+            transform: scale(10);
+        }
+        #mainCont1>h2{
+            padding-top: 40px;
+            text-align: center;
+            font-size: xx-large;
+        }
+        #mainCont1>#info1{
+            margin-top: 50px;
+            width: 80%;
+            padding: 0 40px;
+            font-family: "微软雅黑";
+            font-size: large;
+            font-weight: lighter;
+            line-height: 30px;
         }
     </style>
 </head>
@@ -163,7 +190,13 @@
     <div id="bigwhite"></div>
     <div id="mainText">早茶</div>
     <div id="mainCont1">
-
+        <div id="pin"></div>
+        <h2>简介</h2>
+        <div id="info1">
+            早茶，中国社交饮食习俗。早茶习俗多见于中国南方地区，尤其是江苏扬州、泰州、盐城、里下河地区和广东。谈及广东的传统文化，早茶是其中浓墨重彩的一笔。食在广州，味在西关。
+            西关是三百多年来广州美食文化的核心区域，也是最正宗广式点心的发源地，广州的十大名小吃皆是出自西关地区。到广州，不可不来西关饮茶,饮早茶，自然少不了西关名点。每逢周末或假日，广东人便扶老携幼，或约上三五知己，齐聚茶楼“叹早茶”。“叹”在广东话中是享受的意思，由此可见，
+            喝早茶在广东人的心目中是一种愉快的消遣，在这个层面上来说与其他娱乐活动并无二致。
+        </div>
     </div>
 
     <div id="about" style="opacity: 0"></div>
@@ -173,9 +206,11 @@
         function aboutDis(){
             if($("about").style.opacity==1){
                 $("about").style.opacity=0
+                $("about").style.zIndex=-1
                 return;
             }
             $("about").style.opacity=1
+            $("about").style.zIndex=9
         }
     </script>
     <script>
@@ -188,6 +223,8 @@
         var mainCont1 = $("mainCont1")
         var about = $("about")
         var bigwhite = $("bigwhite")
+        var pin = $("pin")
+        var mainCont1 = $("mainCont1")
     </script>
     <script>
         //Init
@@ -216,6 +253,12 @@
             mainText.style.transform = "scale("+r[1]+")"
             mainText.style.opacity = r[2]
         }
+        function pinScale(e,r){
+            e.style.transform = "scale("+r[0]+")"
+        }
+        function mainCont1Width(e,r){
+            e.style.width = r[0]+"%"
+        }
     </script>
     <script>
         //创建动画
@@ -239,17 +282,29 @@
             callback=big2white,pre="",suf="",
             keyframs=[{r:7000,y:[0]},{r:7800,y:[1]}]
         )
+        var pinScaleAni = create_LINEAR_ANIMATION(
+            callback=pinScale,pre="",suf="",
+            keyframs=[{r:7200+vh/2,y:[150]},{r:7000+vh,y:[1]}]
+        )
+        var mainCont1WidthAni = create_LINEAR_ANIMATION(
+            callback=mainCont1Width,pre="",suf="",
+            keyframs=[{r:7200,y:[0]},{r:7000+vh,y:[60]}]
+        )
         p1.element = a1
         p2.element = a1
         mainTextFontSizeAni.element = mainText
         nav_top.element = nav
         big2whiteAni.element = bigwhite
+        pinScaleAni.element = pin
+        mainCont1WidthAni.element = mainCont1
 
         scroll_KEYFRAME_anis.push(p1)
         scroll_KEYFRAME_anis.push(p2)
         scroll_KEYFRAME_anis.push(nav_top)
         scroll_KEYFRAME_anis.push(mainTextFontSizeAni)
         scroll_KEYFRAME_anis.push(big2whiteAni)
+        scroll_KEYFRAME_anis.push(pinScaleAni)
+        scroll_KEYFRAME_anis.push(mainCont1WidthAni)
 
     </script>
 </body>
