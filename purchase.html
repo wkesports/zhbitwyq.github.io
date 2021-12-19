@@ -61,12 +61,67 @@
         }
         #mainCont{
             width: 70%;
+            overflow: hidden;
+        }
+        #MainImages{
+            width: 100%;
+            height: 400px;
+            margin: 0 auto;
+            position: relative;
+        }
+        #MainImages:hover{
+            cursor: pointer;
+        }
+        .changePage{
+            position: absolute;
+            background: linear-gradient(to right, rgba(70,70,70,70),rgba(70,70,70,0));
+            width: 20%;
+            height: 100%;
+            top: 0;
+            transition: all 0.3s;
+            line-height: 400px;
+            font-size: 60px;
+            font-family: "黑体";
+        }
+        .changePage:hover{
+            color: white;
+        }
+        #c2{
+            background: linear-gradient(to left, rgba(70,70,70,70),rgba(70,70,70,0));
+        }
+        #dots{
+            position: absolute;
+            left: 0;right: 0;
+            bottom: 10px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 4;
+        }
+        .dot{
+            margin: 6px 6px;
+            width: 10px;height: 10px;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px gray;
+            transition: all 0.3s;
+        }
+        #images{
+            position: absolute;
+            top:0;left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #images img{
+            height: 100%;
+            width: 100%;
         }
     </style>
 </head>
 <body>
     <div id="navigator">
-        <div style="margin-left: 2rem;" class="nagivator_item" onclick="window.location.href='blog.html'">首页</div>
+        <div style="margin-left: 2rem;" class="nagivator_item" onclick="window.location.href='index.html'">首页</div>
         <div class="nagivator_item">订购</div>
         <div class="nagivator_item">讨论</div>
         <div class="nagivator_item" onclick="aboutDis()">关于</div>
@@ -74,8 +129,38 @@
 
     <div id="main">
         <div class="Cont" style="border-radius: 10px 0 0 10px;"></div>
-        <div id="mainCont"></div>
+        <div id="mainCont">
+            <div id="MainImages" onmouseenter="hoverImages()" onmouseleave="leaveImages()">
+                <div id="images">
+                    <img src="images/big.jpg" alt="">
+                </div>
+                <div class="changePage" id="c1" style="left: -20%;text-align: start;">&nbsp;&lt;</div>
+                <div class="changePage" id="c2" style="left: 100%;text-align: end;">&gt;&nbsp;</div>
+                <div id="dots">
+                    <div class="dot" style="background-color: gray;"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+        </div>
         <div class="Cont" style="border-radius: 0 10px 10px 0;"></div>
     </div>
+
+    <script>
+        function $(e){return document.getElementById(e)}
+        function $c(e){return document.getElementsByClassName(e)}
+        var c1 = $("c1")
+        var c2 = $("c2")
+        var dots = $c("dot")
+        var imageIndex = 0
+        function hoverImages(){
+            c1.style.left = "0%"
+            c2.style.left = "80%"
+        }
+        function leaveImages(){
+            c1.style.left = "-20%"
+            c2.style.left = "100%"
+        }
+    </script>
 </body>
 </html>
