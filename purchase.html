@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #navigator{
+            z-index: 999;
+            position: fixed;
+            top: 0rem;left: 0;
+            backdrop-filter: blur(2rem);
+            width: 100vw;
+            height: 3rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        #navigator::before{
+            z-index: 3;
+            content: '';
+            position: absolute;
+            top: 0;right: 0;left: 0;bottom: 0;
+            background-color: white;
+            opacity: 0.7;
+        }
+        .nagivator_item{
+            z-index: 4;
+            line-height: 3rem;
+            padding: 0 1rem;
+            transition: all 0.3s;
+            cursor: none;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            font-family: "等线";
+            font-size: large;
+        }
+        .nagivator_item:hover{
+            cursor: pointer;
+            background: darkgray;
+        }
+        #main{
+            display: flex;
+            width: 80%;
+            height: 1000px;
+            position: relative;
+            justify-content: space-around;
+            margin: 0 auto;
+            margin-top: 4rem;
+        }
+        .Cont,#mainCont{
+            width: 50%;
+            background-color: purple;
+            margin: 0 10px;
+        }
+        .Cont{
+            width: 20%;
+        }
+        #mainCont{
+            width: 70%;
+        }
+    </style>
+</head>
+<body>
+    <div id="navigator">
+        <div style="margin-left: 2rem;" class="nagivator_item" onclick="window.location.href='blog.html'">首页</div>
+        <div class="nagivator_item">订购</div>
+        <div class="nagivator_item">讨论</div>
+        <div class="nagivator_item" onclick="aboutDis()">关于</div>
+    </div>
+
+    <div id="main">
+        <div class="Cont" style="border-radius: 10px 0 0 10px;"></div>
+        <div id="mainCont"></div>
+        <div class="Cont" style="border-radius: 0 10px 10px 0;"></div>
+    </div>
+</body>
+</html>

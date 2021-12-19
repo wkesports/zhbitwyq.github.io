@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function getParams(){
+            var l = window.location.href.split("?")[1]
+            var l1 = l.split("&")
+            var kvs = new Array()
+            for(var i = 0;i<l1.length;i++){
+                var n = new Object()
+                n.key = l1[i].split("=")[0]
+                n.value = l1[i].split("=")[1]
+                kvs.push(n)
+            }
+            return kvs
+        }
+
+        var kvs = getParams()
+        
+    </script>
+</body>
+</html>
