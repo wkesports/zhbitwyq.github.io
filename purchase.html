@@ -58,6 +58,7 @@
             width: 90%;
             overflow: hidden;
             border-radius: 10px;
+            box-shadow: 0 0 20px gray;
         }
         #MainImages{
             width: 100%;
@@ -85,7 +86,7 @@
         }
         .changePage:hover{
             text-shadow: 0 0 10px white;
-            font-size: 130px;
+            font-size: 180px;
         }
         #c2{
             background: linear-gradient(to left, rgba(70,70,70,70),rgba(70,70,70,0));
@@ -123,14 +124,21 @@
             height: 100%;
             width: 100%;
         }
+        .VSplit{
+            width: 1px;
+            height: 60%;
+            background-color: gray;
+        }
     </style>
 </head>
 <body>
     <div id="navigator">
         <div style="margin-left: 2rem;" class="nagivator_item" onclick="window.location.href='index.html'">首页</div>
-        <div class="nagivator_item">订购</div>
+        <div class="nagivator_item" onclick="window.location.href='purchase.html'">订购</div>
         <div class="nagivator_item">讨论</div>
         <div class="nagivator_item" onclick="aboutDis()">关于</div>
+        <div class="VSplit"></div>
+        <div class="nagivator_item" id="login_name">未登录</div>
     </div>
 
     <div id="main">
@@ -197,6 +205,31 @@
             $("images").style.left = (-imageIndex * 100) + "%"
             updateDots()
         },3000)
+    </script>
+    <script>
+        //登录相关
+        function logoutF(){
+            localStorage.removeItem("login_name")
+            window.location.href = "purchase.html"
+        }
+        function goToLogin(){
+            window.location.href = "login.html?forward=purchase.html"
+        }
+        if (localStorage.getItem("login_name")==null){
+            $("login_name").innerHTML = "未登录"
+            $("login_name").onclick = goToLogin
+        }else{
+            $("login_name").innerHTML = localStorage.getItem("login_name")
+            var logout = document.createElement("div")
+            logout.className = "nagivator_item"
+            logout.innerHTML = "登出"
+            logout.onclick = logoutF
+            var purchaseInventory = document.createElement("div")
+            purchaseInventory.className = "nagivator_item"
+            purchaseInventory.innerHTML = "购物车"
+            $("navigator").append(purchaseInventory)
+            $("navigator").append(logout)
+        }
     </script>
 </body>
 </html>

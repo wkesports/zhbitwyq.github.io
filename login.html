@@ -137,7 +137,12 @@
         }
     </script>
     <script>
-        var accounts = []
+        var accounts
+        if(localStorage.getItem("accounts")==null){
+            accounts = {"accounts":[]}
+        }else{
+            accounts = JSON.parse(localStorage.getItem("accounts"))
+        }
         /*注册功能*/
         //创建新的账号
         var registID = document.getElementById("registID")
@@ -162,7 +167,6 @@
                 registPWD.value = ""
                 registConfPWD.value = ""
                 $("#regi")[0].click()
-                console.log(accounts);
                 return 1;
             }
             alert("注册失败")
@@ -172,7 +176,8 @@
         {
             if(check(id)&&check(pwd)){
                 var b = getNewAccount(id,pwd)
-                accounts.push(b)
+                accounts.accounts.push(b)
+                localStorage.setItem("accounts",JSON.stringify(accounts))
                 return 1;
             }
             return -1;
@@ -186,6 +191,16 @@
         }
     </script>
     <script>
+        var params = window.location.href.split("?")[1].split("&")
+        var nextPage = null
+        for(var i = 0;i<params.length;i++){
+            var p1 = params[i].split("=")[0]
+            var p2 = params[i].split("=")[1]
+            if(p1=="forward"){
+                nextPage = p2
+            }
+            break
+        }
         /*登录功能*/
         function $(n){
             return document.querySelectorAll(n)
@@ -195,15 +210,19 @@
             var pwd = $("#loginPWD")[0].value
             if(searchAccounts(ID,pwd)==1){
                 alert("登录成功")
-                window.location.href="blog.html"
+                localStorage.setItem("login_name",ID)
+                if(nextPage==null){
+                    window.location.href="index.html"
+                }
+                window.location.href = nextPage
                 return 1;
             }
             alert("密码或用户名错误")
             return -1;
         }
         function searchAccounts(id,pwd){
-            for(var i = 0;i<accounts.length;i++){
-                if(accounts[i].id == id&&accounts[i].password == pwd){
+            for(var i = 0;i<accounts.accounts.length;i++){
+                if(accounts.accounts[i].id == id&&accounts.accounts[i].password == pwd){
                     return 1;
                 }
             }
