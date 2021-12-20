@@ -51,21 +51,17 @@
             margin: 0 auto;
             margin-top: 4rem;
         }
-        .Cont,#mainCont{
-            width: 50%;
+        #mainCont{
+            width: 80%;
             background-color: purple;
             margin: 0 10px;
-        }
-        .Cont{
-            width: 20%;
-        }
-        #mainCont{
-            width: 70%;
+            width: 90%;
             overflow: hidden;
+            border-radius: 10px;
         }
         #MainImages{
             width: 100%;
-            height: 400px;
+            height: 600px;
             margin: 0 auto;
             position: relative;
         }
@@ -79,12 +75,17 @@
             height: 100%;
             top: 0;
             transition: all 0.3s;
-            line-height: 400px;
+            line-height: 600px;
             font-size: 60px;
             font-family: "黑体";
+            color: white;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
         }
         .changePage:hover{
-            color: white;
+            text-shadow: 0 0 10px white;
+            font-size: 130px;
         }
         #c2{
             background: linear-gradient(to left, rgba(70,70,70,70),rgba(70,70,70,0));
@@ -112,8 +113,13 @@
             top:0;left: 0;
             width: 100%;
             height: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            transition: all 0.3s;
         }
         #images img{
+            flex-shrink: 0;
             height: 100%;
             width: 100%;
         }
@@ -128,14 +134,15 @@
     </div>
 
     <div id="main">
-        <div class="Cont" style="border-radius: 10px 0 0 10px;"></div>
         <div id="mainCont">
             <div id="MainImages" onmouseenter="hoverImages()" onmouseleave="leaveImages()">
                 <div id="images">
                     <img src="images/big.jpg" alt="">
+                    <img src="images/big2.jpg" alt="">
+                    <img src="images/big3.jpg" alt="">
                 </div>
-                <div class="changePage" id="c1" style="left: -20%;text-align: start;">&nbsp;&lt;</div>
-                <div class="changePage" id="c2" style="left: 100%;text-align: end;">&gt;&nbsp;</div>
+                <div class="changePage" onclick="changeImage(-1)" id="c1" style="left: -20%;text-align: start;">&nbsp;&lt;</div>
+                <div class="changePage" onclick="changeImage(1)" id="c2" style="left: 100%;text-align: end;">&gt;&nbsp;</div>
                 <div id="dots">
                     <div class="dot" style="background-color: gray;"></div>
                     <div class="dot"></div>
@@ -143,7 +150,6 @@
                 </div>
             </div>
         </div>
-        <div class="Cont" style="border-radius: 0 10px 10px 0;"></div>
     </div>
 
     <script>
@@ -153,6 +159,7 @@
         var c2 = $("c2")
         var dots = $c("dot")
         var imageIndex = 0
+        var imageLength = $("images").children.length
         function hoverImages(){
             c1.style.left = "0%"
             c2.style.left = "80%"
@@ -161,6 +168,35 @@
             c1.style.left = "-20%"
             c2.style.left = "100%"
         }
+        function changeImage(e){
+            if(e==1){
+                imageIndex++
+                if(imageIndex>=imageLength){ imageIndex = 0 }
+                $("images").style.left = (-imageIndex * 100) + "%"
+                updateDots()
+                return
+            }
+            imageIndex--
+            if(imageIndex<0){ imageIndex = imageLength-1 }
+            $("images").style.left = (-imageIndex * 100) + "%"
+            updateDots()
+        }
+        function updateDots(){
+            for(var i = 0;i<imageLength;i++){
+                if(i==imageIndex){
+                    $("dots").children[i].style.backgroundColor = "gray"
+                    continue
+                }
+                $("dots").children[i].style.backgroundColor = "white"
+            }
+        }
+        //轮播
+        setInterval(()=>{
+            imageIndex++
+            if(imageIndex>=imageLength){ imageIndex = 0 }
+            $("images").style.left = (-imageIndex * 100) + "%"
+            updateDots()
+        },3000)
     </script>
 </body>
 </html>

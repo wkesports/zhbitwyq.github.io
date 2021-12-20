@@ -162,9 +162,20 @@
             background-color: #34495e;
             color: white;
         }
+        #tips{
+            position: fixed;
+            left: 0;right: 0;bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
+    <div id="tips">
+        <div style="font-size: 30px;">↓</div>
+        <div style="font-size: 30px;">向下滑动</div>
+    </div>
     <div class="a1" style="background-color:#cadefc">
         <div>
             <h1>水晶虾饺</h1>
@@ -245,6 +256,7 @@
         var bigwhite = $("bigwhite")
         var pin = $("pin")
         var mainCont1 = $("mainCont1")
+        var tips = $("tips")
     </script>
     <script>
         //Init
@@ -252,6 +264,9 @@
     </script>
     <script>
         //回调函数
+        function tipsDisappear(e,r){
+            e.style.transform = "scale("+r[0]+")"
+        }
         function a1left(e,r,b,o){
             for(var i = 0;i<e.length;i+=2){
                 e[i].style.left = o.get(o,scrollTop-i*1000)[0]+"px"
@@ -310,6 +325,10 @@
             callback=mainCont1Width,pre="",suf="",
             keyframs=[{r:7200,y:[30]},{r:7100+vh/2,y:[50]},{r:7000+vh,y:[80]}]
         )
+        var tipsDisappearAni = create_LINEAR_ANIMATION(
+            callback=tipsDisappear,pre="",suf="",
+            keyframs=[{r:0,y:[1]},{r:300,y:[0]}]
+        )
         p1.element = a1
         p2.element = a1
         mainTextFontSizeAni.element = mainText
@@ -317,6 +336,7 @@
         big2whiteAni.element = bigwhite
         pinScaleAni.element = pin
         mainCont1WidthAni.element = mainCont1
+        tipsDisappearAni.element = tips
 
         scroll_KEYFRAME_anis.push(p1)
         scroll_KEYFRAME_anis.push(p2)
@@ -325,6 +345,7 @@
         scroll_KEYFRAME_anis.push(big2whiteAni)
         scroll_KEYFRAME_anis.push(pinScaleAni)
         scroll_KEYFRAME_anis.push(mainCont1WidthAni)
+        scroll_KEYFRAME_anis.push(tipsDisappearAni)
 
     </script>
 </body>
