@@ -3,17 +3,21 @@ setInterval(()=>{
     vh = document.documentElement.clientHeight
     vw = document.documentElement.clientWidth
 },500)
-window.onload=()=>{
+var onLoadCallBack = null
+var onScrollCallBack = null
+var onResizeCallBack = null
+window.onload=(e)=>{
     scrollTop = document.documentElement.scrollTop;
     for(var i=0;i<scroll_KEYFRAME_anis.length;i++){
         scroll_KEYFRAME_anis[i].update(scroll_KEYFRAME_anis[i],scrollTop)
     }
     /*滚动页面动画*/
-    window.onscroll = ()=>{
+    window.onscroll = (e)=>{
         scrollTop = document.documentElement.scrollTop;
         for(var i=0;i<scroll_KEYFRAME_anis.length;i++){
             scroll_KEYFRAME_anis[i].update(scroll_KEYFRAME_anis[i],scrollTop)
         }
+        onScrollCallBack(e)
     }
     var last = 0
     /*时间流逝动画*/
@@ -27,16 +31,17 @@ window.onload=()=>{
         }
         if(last==0){
             last = new Date().valueOf()
-            delta = 16.67
+            delta = 6.94
         }else{
             var l = new Date().valueOf()
             delta = l - last
             last = l
         }
         timer+=delta/1000
-    },16.7)
+    },6.94)
+    onLoadCallBack(e)
 }
-window.onresize=()=>{
+window.onresize=(e)=>{
     vh = document.documentElement.clientHeight
     vw = document.documentElement.clientWidth
     scrollTop = document.documentElement.scrollTop;
@@ -44,6 +49,7 @@ window.onresize=()=>{
         scroll_KEYFRAME_anis[i].update(scroll_KEYFRAME_anis[i],scrollTop)
     }
     console.log('change size:(%d,%d)',vw,vh);
+    onResizeCallBack(e)
 }
 function lerp(a,amax,lerpA,lerpB){
     var t = a/amax
