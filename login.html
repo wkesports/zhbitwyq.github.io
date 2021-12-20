@@ -91,6 +91,33 @@
         input[id="regi"]:checked~#main{
             transform: rotateY(180deg);
         }
+        #clearDataBase{
+            z-index: 13;
+            position: fixed;
+            top: 0;left: 0;
+            width: 50px;height: 50px;
+            text-align: center;
+            font-size: 30px;
+            line-height: 45px;
+            transition: all 0.3s;
+            border-radius: 50%;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+        }
+        #clearDataBase:hover{
+            cursor: pointer;
+            color: white;
+            background-color: gray;
+        }
+        #rightWhite{
+            position: fixed;
+            z-index: 14;
+            top: 0;left: 100vw;
+            width: 100vw;height: 100vh;
+            transition: all 1s;
+            background-color: white;
+        }
     </style>
 </head>
 <body>
@@ -116,6 +143,14 @@
             </label>
         </div>
     </div>
+    <div id="clearDataBase" onclick="ClearDataBase()">×</div>
+    <div id="rightWhite"></div>
+
+    <script src="animation.js"></script>
+    <script>
+        function $(e) {return document.getElementById(e)}
+        
+    </script>
     <script>
         var login = document.getElementById("login")
         var regist = document.getElementById("regist")
@@ -189,18 +224,25 @@
             }
             return 1
         }
+        function ClearDataBase(){
+            localStorage.removeItem("accounts")
+            localStorage.removeItem("login_name")
+            window.location.href = "login.html"
+        }
     </script>
     <script>
-        var params = window.location.href.split("?")[1].split("&")
         var nextPage = null
-        for(var i = 0;i<params.length;i++){
-            var p1 = params[i].split("=")[0]
-            var p2 = params[i].split("=")[1]
-            if(p1=="forward"){
-                nextPage = p2
+        try {
+            var params = window.location.href.split("?")[1].split("&")
+            for(var i = 0;i<params.length;i++){
+                var p1 = params[i].split("=")[0]
+                var p2 = params[i].split("=")[1]
+                if(p1=="forward"){
+                    nextPage = p2
+                }
+                break
             }
-            break
-        }
+        }catch(error){ }
         /*登录功能*/
         function $(n){
             return document.querySelectorAll(n)
@@ -209,13 +251,18 @@
             var ID = $("#loginID")[0].value
             var pwd = $("#loginPWD")[0].value
             if(searchAccounts(ID,pwd)==1){
-                alert("登录成功")
                 localStorage.setItem("login_name",ID)
-                if(nextPage==null){
-                    window.location.href="index.html"
-                }
-                window.location.href = nextPage
-                return 1;
+                $("#main")[0].style.transform = "translateX("+(-vw/2-400)+"px)"
+                $("#rightWhite")[0].style.left = 0
+                setTimeout(() => {
+                    if(nextPage==null){
+                        window.location.href="index.html"
+                        return
+                    }
+                    window.location.href = nextPage
+                    return 1;
+                }, 1000);
+                return 1
             }
             alert("密码或用户名错误")
             return -1;

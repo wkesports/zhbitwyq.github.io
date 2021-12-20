@@ -6,10 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body{
+            overflow-x: hidden;
+        }
         #navigator{
             z-index: 999;
             position: fixed;
-            top: 0rem;left: 0;
+            top: 0;left: 0;
             backdrop-filter: blur(2rem);
             width: 100vw;
             height: 3rem;
@@ -30,7 +33,7 @@
             z-index: 4;
             line-height: 3rem;
             padding: 0 1rem;
-            transition: all 0.3s;
+            transition: all 1s;
             cursor: none;
             user-select: none;
             -moz-user-select: none;
@@ -104,7 +107,7 @@
         .dot{
             margin: 6px 6px;
             width: 10px;height: 10px;
-            background-color: white;
+            background-color: gray;
             border-radius: 50%;
             box-shadow: 0 0 10px gray;
             transition: all 0.3s;
@@ -129,6 +132,14 @@
             height: 60%;
             background-color: gray;
         }
+        #whiteBoard{
+            position: fixed;
+            top: 0;left: 0vw;width: 100vw;height: 100vh;
+            z-index: 1000;
+            background-color: white;
+            transition: all 1s;
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -152,84 +163,93 @@
                 <div class="changePage" onclick="changeImage(-1)" id="c1" style="left: -20%;text-align: start;">&nbsp;&lt;</div>
                 <div class="changePage" onclick="changeImage(1)" id="c2" style="left: 100%;text-align: end;">&gt;&nbsp;</div>
                 <div id="dots">
-                    <div class="dot" style="background-color: gray;"></div>
+                    <div class="dot" style="background-color: white;"></div>
                     <div class="dot"></div>
                     <div class="dot"></div>
                 </div>
             </div>
         </div>
     </div>
+    <div id="whiteBoard"></div>
+</body>
+<script>
+    function $(e){return document.getElementById(e)}
+    function $c(e){return document.getElementsByClassName(e)}
+    var c1 = $("c1")
+    var c2 = $("c2")
+    var dots = $c("dot")
+    var imageIndex = 0
+    var imageLength = $("images").children.length
 
-    <script>
-        function $(e){return document.getElementById(e)}
-        function $c(e){return document.getElementsByClassName(e)}
-        var c1 = $("c1")
-        var c2 = $("c2")
-        var dots = $c("dot")
-        var imageIndex = 0
-        var imageLength = $("images").children.length
-        function hoverImages(){
-            c1.style.left = "0%"
-            c2.style.left = "80%"
-        }
-        function leaveImages(){
-            c1.style.left = "-20%"
-            c2.style.left = "100%"
-        }
-        function changeImage(e){
-            if(e==1){
-                imageIndex++
-                if(imageIndex>=imageLength){ imageIndex = 0 }
-                $("images").style.left = (-imageIndex * 100) + "%"
-                updateDots()
-                return
-            }
-            imageIndex--
-            if(imageIndex<0){ imageIndex = imageLength-1 }
-            $("images").style.left = (-imageIndex * 100) + "%"
-            updateDots()
-        }
-        function updateDots(){
-            for(var i = 0;i<imageLength;i++){
-                if(i==imageIndex){
-                    $("dots").children[i].style.backgroundColor = "gray"
-                    continue
-                }
-                $("dots").children[i].style.backgroundColor = "white"
-            }
-        }
-        //轮播
-        setInterval(()=>{
+    document.getElementById("whiteBoard").style.left = "100vw"
+
+    function hoverImages(){
+        c1.style.left = "0%"
+        c2.style.left = "80%"
+    }
+    function leaveImages(){
+        c1.style.left = "-20%"
+        c2.style.left = "100%"
+    }
+    function changeImage(e){
+        if(e==1){
             imageIndex++
             if(imageIndex>=imageLength){ imageIndex = 0 }
             $("images").style.left = (-imageIndex * 100) + "%"
             updateDots()
-        },3000)
-    </script>
-    <script>
-        //登录相关
-        function logoutF(){
-            localStorage.removeItem("login_name")
-            window.location.href = "purchase.html"
+            return
         }
-        function goToLogin(){
-            window.location.href = "login.html?forward=purchase.html"
+        imageIndex--
+        if(imageIndex<0){ imageIndex = imageLength-1 }
+        $("images").style.left = (-imageIndex * 100) + "%"
+        updateDots()
+    }
+    function updateDots(){
+        for(var i = 0;i<imageLength;i++){
+            if(i==imageIndex){
+                $("dots").children[i].style.backgroundColor = "white"
+                continue
+            }
+            $("dots").children[i].style.backgroundColor = "gray"
         }
-        if (localStorage.getItem("login_name")==null){
-            $("login_name").innerHTML = "未登录"
-            $("login_name").onclick = goToLogin
-        }else{
-            $("login_name").innerHTML = localStorage.getItem("login_name")
-            var logout = document.createElement("div")
-            logout.className = "nagivator_item"
-            logout.innerHTML = "登出"
-            logout.onclick = logoutF
-            var purchaseInventory = document.createElement("div")
-            purchaseInventory.className = "nagivator_item"
-            purchaseInventory.innerHTML = "购物车"
-            $("navigator").append(purchaseInventory)
-            $("navigator").append(logout)
-        }
-    </script>
-</body>
+    }
+    //轮播
+    setInterval(()=>{
+        imageIndex++
+        if(imageIndex>=imageLength){ imageIndex = 0 }
+        $("images").style.left = (-imageIndex * 100) + "%"
+        updateDots()
+    },3000)
+
+</script>
+<script>
+    var logout
+    var purchaseInventory
+    //登录相关
+    function logoutF(){
+        localStorage.removeItem("login_name")
+        $("navigator").removeChild(logout)
+        $("navigator").removeChild(purchaseInventory)
+        $("login_name").innerHTML = "未登录"
+        $("login_name").onclick = goToLogin
+    }
+    function goToLogin(){
+        window.location.href = "login.html?forward=purchase.html"
+    }
+    if (localStorage.getItem("login_name")==null){
+        $("login_name").innerHTML = "未登录"
+        $("login_name").onclick = goToLogin
+    }else{
+        $("login_name").innerHTML = localStorage.getItem("login_name")
+        logout = document.createElement("div")
+        logout.className = "nagivator_item"
+        logout.innerHTML = "登出"
+        logout.onclick = logoutF
+        purchaseInventory = document.createElement("div")
+        purchaseInventory.className = "nagivator_item"
+        purchaseInventory.innerHTML = "购物车"
+        $("navigator").append(purchaseInventory)
+        $("navigator").append(logout)
+    }
+</script>
 </html>
