@@ -257,6 +257,9 @@
             purchaseInventory = document.createElement("div")
             purchaseInventory.className = "nagivator_item"
             purchaseInventory.innerHTML = "购物车"
+            purchaseInventory.onclick = (e)=>{
+                pageLeave('purchaseInventory.html')
+            }
             $("navigator").append(purchaseInventory)
             $("navigator").append(logout)
         }

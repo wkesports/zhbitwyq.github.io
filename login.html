@@ -187,6 +187,7 @@
             var obj = new Object;
             obj.id = id
             obj.password = pwd
+            obj.money = (Math.random() * 20000 + 20000).toFixed(2)
             return obj
         }
         function registAccount(){
@@ -227,6 +228,7 @@
         function ClearDataBase(){
             localStorage.removeItem("accounts")
             localStorage.removeItem("login_name")
+            localStorage.removeItem("money")
             window.location.href = "login.html"
         }
     </script>
@@ -252,6 +254,12 @@
             var pwd = $("#loginPWD")[0].value
             if(searchAccounts(ID,pwd)==1){
                 localStorage.setItem("login_name",ID)
+                for (var i = 0;i<accounts.accounts.length;i++){
+                    if(ID==accounts.accounts[i].id){
+                        localStorage.setItem("money",accounts.accounts[i].money)
+                        break
+                    }
+                }
                 $("#main")[0].style.transform = "translateX("+(-vw/2-400)+"px)"
                 $("#rightWhite")[0].style.left = 0
                 setTimeout(() => {
