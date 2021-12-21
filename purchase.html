@@ -60,7 +60,7 @@
             position: relative;
             justify-content: space-around;
             margin: 0 auto;
-            margin-top: 4rem;
+            margin-top: 6rem;
         }
         #mainCont{
             width: 80%;
@@ -143,10 +143,10 @@
     </style>
 </head>
 <body>
-    <div id="whiteBoard" onclick="aaa()"></div>
+    <div id="whiteBoard"></div>
     <div id="navigator">
-        <div style="margin-left: 2rem;" class="nagivator_item" onclick="window.location.href='index.html'">首页</div>
-        <div class="nagivator_item" onclick="window.location.href='purchase.html'">订购</div>
+        <div style="margin-left: 2rem;" class="nagivator_item" onclick="pageLeave('index.html')">首页</div>
+        <div class="nagivator_item">订购</div>
         <div class="nagivator_item">讨论</div>
         <div class="nagivator_item">关于</div>
         <div class="VSplit"></div>
@@ -221,7 +221,12 @@
             $("images").style.left = (-imageIndex * 100) + "%"
             updateDots()
         },3000)
-    
+        function pageLeave(e){
+            $("whiteBoard").style.left = "0vw"
+            setTimeout(() => {
+                window.location.href = e
+            }, 1000);
+        }
     </script>
     <script>
         var logout
@@ -235,13 +240,16 @@
             $("login_name").onclick = goToLogin
         }
         function goToLogin(){
-            window.location.href = "login.html?forward=purchase.html"
+            pageLeave("login.html?forward=purchase.html")
         }
         if (localStorage.getItem("login_name")==null){
             $("login_name").innerHTML = "未登录"
             $("login_name").onclick = goToLogin
         }else{
             $("login_name").innerHTML = localStorage.getItem("login_name")
+            $("login_name").onclick = (e)=>{
+                pageLeave("personalPage.html")
+            }
             logout = document.createElement("div")
             logout.className = "nagivator_item"
             logout.innerHTML = "登出"

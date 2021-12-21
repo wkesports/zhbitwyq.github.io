@@ -5,9 +5,130 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #whiteBoard{
+            z-index: 1000;
+            position: fixed;
+            top: 0;left: 0;right: 0;bottom: 0;
+            background-color: white;
+            transition: all 1s;
+            box-shadow: 0 0 10px gray;
+        }
+        #login_error{
+            z-index: 1;
+            position: fixed;
+            top: 0;left: 0;right: 0;bottom: 0;
+            background-color: white;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #login_error div{
+            width: 55px;height: 55px;
+            line-height: 55px;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 40px;
+            transition: all 0.3s;
+        }
+        #login_error div:hover{
+            cursor: pointer;
+            background-color: gray;
+        }
+        #main{
+            display: block;
+        }
+        #personDetail,
+        #panel{
+            position: fixed;
+            top: -100vh;
+            bottom: 110vh;
+            border-radius: 10px;
+            box-shadow: 0 0 30px lightgray;
+            background-color: #dbe2ef;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column;
+            transition: all 0.7s;
+        }
+        #personDetail:hover,
+        #panel:hover{
+            box-shadow: 0 0 10px gray;
+            transform: scale(0.99);
+        }
+
+        #avatar{
+            margin-top: 100px;
+            width: 150px;height: 150px;
+            border-radius: 50%;
+            background-color: gold;
+        }
+        #btn_list{
+            margin-top: 60px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .list_item{
+            width: 100%;
+            height: 60px;
+            font-size: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            line-height: 60px;
+        }
+        .list_item:hover{
+            background-color: #3d84a8;
+            color: white;
+        }
+    </style>
 </head>
 <body>
+    <div id="main">
+        <div id="personDetail" style="left: 20px;width: 400px;">
+            <div id="avatar"></div>
+            <div id="login_name" style="margin-top: 40px;"></div>
+            <div id="money" style="margin-top: 40px;">
+                <span>账户余额$</span>
+                <span>18952.26</span>
+            </div>
+            <div id="btn_list">
+                <div class="list_item" onclick="pageLeave('index.html')">首页</div>
+                <div class="list_item" onclick="pageLeave('purchase.html')">订购</div>
+                <div class="list_item">购物车</div>
+                <div class="list_item" onclick="logout()">登出</div>
+            </div>
+        </div>
+        <div id="panel" style="right: 20px;left: 440px;"></div>
+    </div>
+    <div id="whiteBoard"></div>
+    <div id="login_error">
+        <h2>未登录，前往登录</h2>
+        <div onclick="pageLeave('login.html?forward=personalPage.html')">←</div>
+    </div>
     <script>
+        function $(e){return document.getElementById(e)}
+        function $c(e){return document.getElementsByClassName(e)}
+        if(localStorage.getItem("login_name")==null){
+            $("main").style.display = "none"
+            $("login_error").style.display = "flex"
+        }
+        window.onload = (e)=>{
+            $("whiteBoard").style.left = "100vw"
+            $("login_name").innerHTML = localStorage.getItem("login_name")
+
+            $("personDetail").style.top = "20px"
+            $("personDetail").style.bottom = "20px"
+
+            setTimeout(() => {
+                $("panel").style.top = "20px"
+                $("panel").style.bottom = "20px"
+            }, 200);
+        }
         function getParams(){
             var l = window.location.href.split("?")[1]
             var l1 = l.split("&")
@@ -20,9 +141,27 @@
             }
             return kvs
         }
+        function pageLeave(e){
+            $("panel").style.top = "-100vh"
+            $("panel").style.bottom = "110vh"
 
+            setTimeout(() => {
+                $("personDetail").style.top = "-100vh"
+                $("personDetail").style.bottom = "110vh"
+            }, 200);
+
+            setTimeout(() => {
+                $("whiteBoard").style.left = "0vw"
+            }, 300);
+            setTimeout(() => {
+                window.location.href = e
+            }, 1300);
+        }
         var kvs = getParams()
-        
+        function logout(){
+            localStorage.removeItem("login_name")
+            pageLeave("purchase.html")
+        }
     </script>
 </body>
 </html>

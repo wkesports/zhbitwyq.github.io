@@ -113,7 +113,7 @@
         #rightWhite{
             position: fixed;
             z-index: 14;
-            top: 0;left: 100vw;
+            top: 0;left: 0vw;
             width: 100vw;height: 100vh;
             transition: all 1s;
             background-color: white;
@@ -274,6 +274,9 @@
                 }
             }
             return -1;
+        }
+        window.onload = (e)=>{
+            $("#rightWhite")[0].style.left = "100vw"
         }
     </script>
 </body>
