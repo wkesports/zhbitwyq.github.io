@@ -15,10 +15,26 @@ var gpt = {
     水晶饺: "images/sjj.jpg",
     烧麦: "images/sm.jpg",
     蒸排骨: "images/zpg.jpg",
-    豉汁鸡爪: "images/zsjz.jpg"
+    豉汁鸡爪: "images/zsjz.jpg",
+    艇仔粥: "images/tzz.jpg",
+    云吞面: "images/ytm.jpg",
+    马蹄糕: "images/mtg.jpg",
+    炸春卷: "images/zcj.jpg",
+    糯米糍: "images/nmz.png",
+    椰汁红豆糕: "images/yzhdg.webp",
+    凤爪: "images/fz.jpg",
+    金钱肚: "images/jqd.jpg",
 }
 
 var dpt = {
+    金银花茶: "images/jyhc.webp",
+    五花茶: "images/whc.webp",
+    菊花茶: "images/jhc.jpg",
+    红茶: "images/hc.jpg",
+    橙汁: "images/cz.webp",
+    椰汁: "images/yz.webp",
+    雪碧: "images/xb.jpg",
+    可乐: "images/kl.jpg",
 
 }
 
@@ -28,10 +44,23 @@ var dpt = {
  * @param {Node} K 面板2
  */
 function makePurchases(U,K){
-    var a = Object.keys(gpt)
+    _makePur(U,1)
+    _makePur(K,2)
+}
+function _makePur(U,n){
+    var a
+    console.log(n);
+    if(n==1){
+        a = Object.keys(gpt)
+    }else if(n==2){
+        a = Object.keys(dpt)
+    }
+    console.log(a);
     for (var i = 0;i<a.length;i++){
         var name = a[i]
-        var src = gpt[a[i]]
+        var src
+        if(n==1) src = gpt[a[i]]
+        else src = dpt[a[i]]
         var e1 = document.createElement("div")
         e1.className = "item"
         var e2 = document.createElement("img")

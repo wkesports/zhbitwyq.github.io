@@ -177,7 +177,7 @@
             height: auto;
             display: grid;
             grid-template-columns: repeat(auto-fill,250px);
-            grid-template-rows: repeat(auto-fill,350px);
+            grid-template-rows: repeat(auto-fill,300px);
             justify-items: center;
             align-items: center;
             background-color: #e6f8f6;
@@ -196,7 +196,8 @@
             align-items: center;
         }
         .item img{
-            width: 80%;
+            width: 200px;
+            height: 150px;
             border-radius: 20px;
         }
         #goods{
@@ -207,7 +208,7 @@
             position: absolute;
             top: calc(6rem+660px);
             left: 0;
-            overflow-x: hidden;
+            overflow: visible;
             transition: all 0.3s;
             margin: 0 auto;
         }
@@ -217,7 +218,6 @@
             transition: all 0.3s;
             position: absolute;
             background-color: gray;
-            border-radius: 10px;
         }
         input{
             width: 30%;
@@ -234,6 +234,10 @@
             position: relative;
             justify-content: center;
             flex-shrink: 0;
+            overflow: visible;
+        }
+        #g1{
+            height: 1300px;
         }
     </style>
 </head>
@@ -268,7 +272,7 @@
                 <div id="typeBlock"></div>
                 <div id="type1" onclick="changeType(0)" style="margin-left: 40px;color: white;">茶点</div>
                 <div id="type2" onclick="changeType(1)">饮品</div>
-                <div id="addInventory" style="border-radius: 10px;background-color: #46cdcf;justify-self: flex-end;width: auto;margin-left: 60px;">加入购物车</div>
+                <div id="addInventory" style="background-color: #46cdcf;justify-self: flex-end;width: auto;margin-left: 60px;">加入购物车</div>
             </div>
         </div>
     </div>
@@ -286,11 +290,7 @@
         
         <div id="g2">
             <div id="goods2">
-                <div class="item">
-                    <img src="images/csb.jpg" alt="">
-                    <h4>叉烧包</h4>
-                    <input type="number" placeholder="0">
-                </div>
+                
             </div>
         </div>
     </div>
@@ -300,7 +300,7 @@
         function $(e){return document.getElementById(e)}
         function $c(e){return document.getElementsByClassName(e)}
 
-        makePurchases($("goods1"))
+        makePurchases($("goods1"),$("goods2"))
     </script>
     <script>
         $("typeBlock").style.width = $("type1").clientWidth
