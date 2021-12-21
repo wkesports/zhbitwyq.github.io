@@ -14,9 +14,10 @@
             transition: all 1s;
             opacity: 1;
         }
-        /* body{
+        body{
+            width: 100vw;
             overflow-x: hidden;
-        } */
+        }
         #navigator{
             z-index: 999;
             position: fixed;
@@ -56,7 +57,7 @@
         #main{
             display: flex;
             width: 80%;
-            height: 1000px;
+            height: auto;
             position: relative;
             justify-content: space-around;
             margin: 0 auto;
@@ -64,18 +65,17 @@
         }
         #mainCont{
             width: 80%;
-            background-color: purple;
             margin: 0 10px;
             width: 90%;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 0 20px gray;
         }
         #MainImages{
             width: 100%;
             height: 600px;
             margin: 0 auto;
             position: relative;
+            border-radius: 10px;
+            box-shadow: 0 0 20px gray;
+            overflow-x: hidden;
         }
         #MainImages:hover{
             cursor: pointer;
@@ -140,6 +140,101 @@
             height: 60%;
             background-color: gray;
         }
+        #types{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            font-size: medium;
+            border-radius: 10px;
+            box-shadow: 0 0 20px lightgray;
+            margin-top: 20px;
+            background-color: #e6f8f6;
+            position: relative;
+        }
+        #types div{
+            z-index: 2;
+            padding: 0 10px;
+            height: 40px;
+            line-height: 40px;
+            transition: all 0.3s;
+            width: 32px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+        #types div:hover{
+            cursor: pointer;
+        }
+        #typeBlock{
+            transition: all 0.3s;
+        }
+        #goods1,
+        #goods2{
+            width: 70%;
+            margin: 20px 0;
+            height: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill,250px);
+            grid-template-rows: repeat(auto-fill,350px);
+            justify-items: center;
+            align-items: center;
+            background-color: #e6f8f6;
+            border-radius: 10px;
+            box-shadow: 0 0 20px lightgray;
+            position: relative;
+            flex-shrink: 0;
+            padding: 20px;
+        }
+        .item{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .item img{
+            width: 80%;
+            border-radius: 20px;
+        }
+        #goods{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            position: absolute;
+            top: calc(6rem+660px);
+            left: 0;
+            overflow-x: hidden;
+            transition: all 0.3s;
+            margin: 0 auto;
+        }
+        #typeBlock{
+            width: 32px;
+            z-index: 1;
+            transition: all 0.3s;
+            position: absolute;
+            background-color: gray;
+            border-radius: 10px;
+        }
+        input{
+            width: 30%;
+            height: 30px;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 30px;
+        }
+        #g1,#g2{
+            z-index: 5;
+            width: 100vw;display: flex;
+            position: relative;
+            justify-content: center;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body>
@@ -169,15 +264,74 @@
                     <div class="dot"></div>
                 </div>
             </div>
+            <div id="types">
+                <div id="typeBlock"></div>
+                <div id="type1" onclick="changeType(0)" style="margin-left: 40px;color: white;">茶点</div>
+                <div id="type2" onclick="changeType(1)">饮品</div>
+                <div id="addInventory" style="border-radius: 10px;background-color: #46cdcf;justify-self: flex-end;width: auto;margin-left: 60px;">加入购物车</div>
+            </div>
+        </div>
+    </div>
+    <div id="goods">
+        <div id="g1">
+            <div id="goods1">
+                <!-- <div class="item">
+                    <img src="images/csb.jpg" alt="">
+                    <h4>叉烧包</h4>
+                    <input type="number" placeholder="0">
+                </div> -->
+                
+            </div>
+        </div>
+        
+        <div id="g2">
+            <div id="goods2">
+                <div class="item">
+                    <img src="images/csb.jpg" alt="">
+                    <h4>叉烧包</h4>
+                    <input type="number" placeholder="0">
+                </div>
+            </div>
         </div>
     </div>
 
+    <script src="makeinventory.js"></script>
     <script>
+        function $(e){return document.getElementById(e)}
+        function $c(e){return document.getElementsByClassName(e)}
+
+        makePurchases($("goods1"))
+    </script>
+    <script>
+        $("typeBlock").style.width = $("type1").clientWidth
+        $("typeBlock").style.height = $("type1").clientHeight
+        $("typeBlock").style.left = "40px"
         window.onload = (e)=>{
             $("whiteBoard").style.left = "100vw"
         }
-        function $(e){return document.getElementById(e)}
-        function $c(e){return document.getElementsByClassName(e)}
+        $("goods").style.left = "0"
+        $("g2").style.display = "none"
+        function changeType(e){
+            if(e==0){
+                $("typeBlock").style.width = 32
+                $("typeBlock").style.height = $("type1").clientHeight
+                $("typeBlock").style.left = "40px"
+                $("type1").style.color = "white"
+                $("type2").style.color = "black"
+                $("goods").style.left = "0vw"
+                $("g2").style.display = "none"
+
+            }else{
+                $("typeBlock").style.width = 32
+                $("typeBlock").style.height = $("type2").clientHeight
+                $("typeBlock").style.left = "92px"
+                $("type1").style.color = "black"
+                $("type2").style.color = "white"
+                $("goods").style.left = "-100vw"
+                $("g2").style.display = "flex"
+
+            }
+        }
         var c1 = $("c1")
         var c2 = $("c2")
         var dots = $c("dot")
