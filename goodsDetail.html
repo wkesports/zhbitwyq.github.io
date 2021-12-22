@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #whiteBoard{
+            position: fixed;
+            top: 0;left: 0vw;width: 100vw;height: 100vh;
+            z-index: 1000;
+            background-color: white;
+            transition: all 1s;
+            opacity: 1;
+            box-shadow: 0 0 10px gray;
+        }
+
+        #navigator{
+            z-index: 999;
+            position: fixed;
+            top: 0;left: 0;
+            backdrop-filter: blur(2rem);
+            width: 100vw;
+            height: 3rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        #navigator::before{
+            z-index: 3;
+            content: '';
+            position: absolute;
+            top: 0;right: 0;left: 0;bottom: 0;
+            background-color: white;
+            opacity: 0.7;
+        }
+        .nagivator_item{
+            z-index: 4;
+            line-height: 3rem;
+            padding: 0 1rem;
+            transition: all 0.3s;
+            cursor: none;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            font-family: "等线";
+            font-size: large;
+        }
+        .nagivator_item:hover{
+            cursor: pointer;
+            background: darkgray;
+        }
+        .VSplit{
+            width: 1px;
+            height: 60%;
+            background-color: gray;
+        }
+        #goodsName{
+            position: absolute;
+            left: 0;
+            top: 6rem;
+            width: 100vw;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div id="whiteBoard"></div>
+    <div id="navigator">
+        <div style="margin-left: 2rem;" class="nagivator_item" onclick="pageLeave('index.html')">首页</div>
+        <div class="nagivator_item" onclick="pageLeave('purchase.html')">订购</div>
+        <div class="nagivator_item">讨论</div>
+        <div class="nagivator_item">关于</div>
+        <div class="VSplit"></div>
+        <div class="nagivator_item" id="login_name">未登录</div>
+    </div>
+    <div id="goodsName"></div>
+
+    <script src="getParams.js"></script>
+    <script src="makeinventory.js"></script>
+    <script>
+        function $(e) { return document.getElementById(e) }
+        window.onload = (e)=>{
+            $("whiteBoard").style.left = "100vw"
+        }
+        $("goodsName").innerHTML = findID(kvs["goodsID"])[0]
+
+        function pageLeave(e){
+            $("whiteBoard").style.left = "0vw"
+            setTimeout(() => {
+                window.location.href = e
+            }, 1000);
+        }
+    </script>
+    <script>
+        var logout
+        var purchaseInventory
+        //登录相关
+        function logoutF(){
+            localStorage.removeItem("login_name")
+            $("navigator").removeChild(logout)
+            $("navigator").removeChild(purchaseInventory)
+            $("login_name").innerHTML = "未登录"
+            $("login_name").onclick = goToLogin
+        }
+        function goToLogin(){
+            pageLeave("login.html?forward=purchase.html")
+        }
+        if (localStorage.getItem("login_name")==null){
+            $("login_name").innerHTML = "未登录"
+            $("login_name").onclick = goToLogin
+        }else{
+            $("login_name").innerHTML = localStorage.getItem("login_name")
+            $("login_name").onclick = (e)=>{
+                pageLeave("personalPage.html")
+            }
+            logout = document.createElement("div")
+            logout.className = "nagivator_item"
+            logout.innerHTML = "登出"
+            logout.onclick = logoutF
+            purchaseInventory = document.createElement("div")
+            purchaseInventory.className = "nagivator_item"
+            purchaseInventory.innerHTML = "购物车"
+            purchaseInventory.onclick = (e)=>{
+                pageLeave('purchaseInventory.html')
+            }
+            $("navigator").append(purchaseInventory)
+            $("navigator").append(logout)
+        }
+    </script>
+</body>
+</html>
