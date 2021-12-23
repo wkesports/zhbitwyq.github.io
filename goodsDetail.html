@@ -9,7 +9,7 @@
         #whiteBoard{
             position: fixed;
             top: 0;left: 0vw;width: 100vw;height: 100vh;
-            z-index: 1000;
+            z-index: 7000;
             background-color: white;
             transition: all 1s;
             opacity: 1;
@@ -57,17 +57,96 @@
             height: 60%;
             background-color: gray;
         }
-        #goodsName{
+        body{
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        #mainCont{
+            width: 80%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 6rem;
+            border-radius: 10px;
+            background-color: #a6e3e9;
+            margin-bottom: 200px;
+        }
+        #mainCont img{
+            margin: 40px;
+            width: 50%;
+        }
+        #mainCont img{
+            border-radius: 5px;
+            box-shadow: 0 0 10px gray;
+        }
+        #back{
+            z-index: 1000;
+            position: fixed;
+            top: 0;left: -90px;bottom: 0;
+            width: 90px;
+            font-size: 50px;
+            line-height: 100vh;
+            text-align: center;
+            transition: all 0.5s;
+        }
+        #back:hover{
+            cursor: pointer;
+            text-shadow: 0 0 10px gray;
+            font-size: 60px;
+        }
+        #recommand{
+            position: fixed;
+            z-index: 1200;
+            bottom: 0;left: 0;right: 0;
+            height: 120px;
+            backdrop-filter: blur(2rem);
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            box-shadow: 0 0 10px gray;
+        }
+        #blackMask{
+            content: '';
             position: absolute;
-            left: 0;
-            top: 6rem;
-            width: 100vw;
-            height: 500px;
+            z-index: 1198;
+            bottom: 0;left: 0;right: 0;top: 0;
+            background-color: black;
+            opacity: 0.2;
+        }
+        #recommand h3{
+            z-index: 1200;
+            flex-shrink: 0;
+        }
+        marquee img{
+            margin: 0 20px;
+            width: 150px;
+            height: 100px;
+            border-radius: 10px;
+        }
+        marquee{
+            z-index: 1198;
         }
     </style>
 </head>
 <body>
     <div id="whiteBoard"></div>
+    <div id="recommand">
+        <div id="blackMask"></div>
+        <h3 style="margin: 0 20px;">为您推荐</h3>
+        <marquee behavior="" direction="left">
+            <img src="images/dt.jpg" alt="">
+            <img src="images/cf.jpg" alt="">
+            <img src="images/csb.jpg" alt="">
+            <img src="images/sm.jpg" alt="">
+            <img src="images/mtg.jpg" alt="">
+            <img src="images/zcj.jpg" alt="">
+            <img src="images/zpg.jpg" alt="">
+        </marquee>
+    </div>
     <div id="navigator">
         <div style="margin-left: 2rem;" class="nagivator_item" onclick="pageLeave('index.html')">首页</div>
         <div class="nagivator_item" onclick="pageLeave('purchase.html')">订购</div>
@@ -76,7 +155,19 @@
         <div class="VSplit"></div>
         <div class="nagivator_item" id="login_name">未登录</div>
     </div>
-    <div id="goodsName"></div>
+
+    <div id="mainCont">
+        <img id="goodsImg" src="" alt="">
+
+        <div style="margin: 20px 40px;width: 50%;">
+            <h1 style="font-size: 50px;margin: 50px 0;" id="goodsName"></h1>
+            <h3 id="introduce"></h3>    
+        </div>
+    </div>
+
+    <div id="back" onclick="pageLeave('purchase.html')">
+        ←
+    </div>
 
     <script src="getParams.js"></script>
     <script src="makeinventory.js"></script>
@@ -84,11 +175,15 @@
         function $(e) { return document.getElementById(e) }
         window.onload = (e)=>{
             $("whiteBoard").style.left = "100vw"
+            $("back").style.left = "0"
         }
+        console.log(kvs);
         $("goodsName").innerHTML = findID(kvs["goodsID"])[0]
-
+        $("goodsImg").src = findID(kvs["goodsID"])[1]
+        $("introduce").innerHTML = findID(kvs["goodsID"])[2]
         function pageLeave(e){
             $("whiteBoard").style.left = "0vw"
+            $("back").style.left = "-90px"
             setTimeout(() => {
                 window.location.href = e
             }, 1000);

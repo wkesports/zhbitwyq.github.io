@@ -9,12 +9,11 @@
         #whiteBoard{
             position: fixed;
             top: 0;left: 0vw;width: 100vw;height: 100vh;
-            z-index: 1000;
+            z-index: 7000;
             background-color: white;
             transition: all 1s;
             opacity: 1;
             box-shadow: 0 0 10px gray;
-
         }
         body{
             width: 100vw;
@@ -244,9 +243,55 @@
         #g1{
             height: 1300px;
         }
+        #recommand{
+            position: fixed;
+            z-index: 1200;
+            bottom: 0;left: 0;right: 0;
+            height: 120px;
+            backdrop-filter: blur(2rem);
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            box-shadow: 0 0 10px gray;
+        }
+        #blackMask{
+            content: '';
+            position: absolute;
+            z-index: 1198;
+            bottom: 0;left: 0;right: 0;top: 0;
+            background-color: black;
+            opacity: 0.2;
+        }
+        #recommand h3{
+            z-index: 1200;
+            flex-shrink: 0;
+        }
+        marquee img{
+            margin: 0 20px;
+            width: 150px;
+            height: 100px;
+            border-radius: 10px;
+        }
+        marquee{
+            z-index: 1198;
+        }
     </style>
 </head>
 <body>
+    <div id="recommand">
+        <div id="blackMask"></div>
+        <h3 style="margin: 0 20px;">为您推荐</h3>
+        <marquee behavior="" direction="left">
+            <img src="images/dt.jpg" alt="">
+            <img src="images/cf.jpg" alt="">
+            <img src="images/csb.jpg" alt="">
+            <img src="images/sm.jpg" alt="">
+            <img src="images/mtg.jpg" alt="">
+            <img src="images/zcj.jpg" alt="">
+            <img src="images/zpg.jpg" alt="">
+        </marquee>
+    </div>
     <div id="whiteBoard"></div>
     <div id="navigator">
         <div style="margin-left: 2rem;" class="nagivator_item" onclick="pageLeave('index.html')">首页</div>
