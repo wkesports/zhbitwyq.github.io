@@ -227,8 +227,8 @@
     </div>
     <div id="navigator">
         <div style="margin-left: 2rem;" class="nagivator_item" onclick="window.location.href='index.html'">首页</div>
-        <div class="nagivator_item">订购</div>
-        <div class="nagivator_item">讨论</div>
+        <div class="nagivator_item" onclick="bigWhiteFinal('purchase.html')">订购</div>
+        <div class="nagivator_item" onclick="bigWhiteFinal('forum.html')">讨论</div>
         <div class="nagivator_item" onclick="aboutDis()">关于</div>
     </div>
     <div id="bigwhite"></div>
@@ -241,8 +241,8 @@
             西关是三百多年来广州美食文化的核心区域，也是最正宗广式点心的发源地，广州的十大名小吃皆是出自西关地区。到广州，不可不来西关饮茶,饮早茶，自然少不了西关名点。每逢周末或假日，广东人便扶老携幼，或约上三五知己，齐聚茶楼“叹早茶”。“叹”在广东话中是享受的意思，由此可见，
             喝早茶在广东人的心目中是一种愉快的消遣，在这个层面上来说与其他娱乐活动并无二致。
         </div>
-        <button style="margin-top: 150px;" onclick="bigWhiteFinal()">前往订购&gt;</button>
-        <button style="margin-top: 50px;">前往讨论&gt;</button>
+        <button style="margin-top: 150px;" onclick="bigWhiteFinal('purchase.html')">前往订购&gt;</button>
+        <button style="margin-top: 50px;" onclick="bigWhiteFinal('forum.html')">前往讨论&gt;</button>
 
     </div>
 
@@ -281,10 +281,10 @@
     <script>
         //Init
         mainCont1.style.marginTop = (7200 + vh) + "px"
-        function bigWhiteFinal(){
+        function bigWhiteFinal(e){
             $("whiteBoard").style.transform = "scale(1)"
             setTimeout(() => {
-                window.location.href="purchase.html"
+                window.location.href = e
             }, 1000);
         }
     </script>
