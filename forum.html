@@ -113,6 +113,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-shrink: 0;
         }
         .classfied_item:hover{
             cursor: pointer;
@@ -202,7 +203,7 @@
             <div id="nav_placeholder"></div>
             <div id="search" style="position: relative;">
                 <img src="images/搜索.png" alt="" style="margin-left: 5px;" onclick="search()">
-                <input id="search_input" type="text" onblur="search()" placeholder="搜索一下吧">
+                <input id="search_input" onfocus="search(1)" type="text" onblur="search()" placeholder="搜索一下吧">
             </div>
             <div class="clickable">简体中文</div>
             <div class="clickable">注册</div>
@@ -358,19 +359,31 @@
             }, 1000);
         }
         var searchOpen = false
-        function search(){
-            if(!searchOpen){
+        function search(n){
+            if(n==undefined){
+                if(!searchOpen){
+                    $("search_input").style.width = "100%"
+                    $("search").style.border = "2px solid #426799"
+                    $("search").style.borderRadius = "5px"
+                    $("search_input").focus()
+                    searchOpen = true
+                    return
+                }
+                $("search_input").style.width = "0"
+                $("search").style.border = "0px solid #426799"
+
+                searchOpen = false
+            }else if(n==1){
                 $("search_input").style.width = "100%"
                 $("search").style.border = "2px solid #426799"
                 $("search").style.borderRadius = "5px"
                 $("search_input").focus()
                 searchOpen = true
-                return
+            }else{
+                $("search_input").style.width = "0"
+                $("search").style.border = "0px solid #426799"
+                searchOpen = false
             }
-            $("search_input").style.width = "0"
-            $("search").style.border = "0px solid #426799"
-
-            searchOpen = false
         }
         function closeNotification(){
             $("notification").style.display = "none"
