@@ -206,8 +206,9 @@
                 <input id="search_input" onfocus="search(1)" type="text" onblur="search()" placeholder="搜索一下吧">
             </div>
             <div class="clickable">简体中文</div>
-            <div class="clickable">注册</div>
-            <div class="clickable">登录</div>
+            <div class="clickable" id="regist" onclick="pageLeave('login.html')">注册</div>
+            <div class="clickable" id="login" onclick="pageLeave('login.html')">登录</div>
+            <div class="clickable" id="login_name" onclick="pageLeave('personalPage.html')" style="display: none;"></div>
         </div>
     </div>
     <div id="notification">
@@ -357,6 +358,12 @@
             setTimeout(() => {
                 window.location.href = e
             }, 1000);
+        }
+        if(localStorage.getItem("login_name")!=null){
+            $("regist").style.display = "none"
+            $("login").style.display = "none"
+            $("login_name").style.display = "block"
+            $("login_name").innerHTML = localStorage.getItem("login_name")
         }
         var searchOpen = false
         function search(n){
