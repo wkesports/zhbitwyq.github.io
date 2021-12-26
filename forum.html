@@ -191,6 +191,12 @@
             width: 200px;
             border-radius: 5px;
         }
+        .mainCont_item{
+            transition: all 0.5s;
+        }
+        .mainCont{
+            transition: all 1s;
+        }
     </style>
 </head>
 <body>
@@ -216,6 +222,14 @@
         <span style="color: #72889F;width: 100%;text-align: center;display: inline-block; padding-top: 20px;padding-bottom: 40px;">你可以在此与他人分享，或者向我们提出问题</span>
         <div style="position: absolute;right: 0;top: 0;bottom: 0;width: 50px;">
             <img onclick="closeNotification()" src="images/关闭.png" style="margin-top: 20px;" width="10" height="10" alt="">
+        </div>
+    </div>
+    <div style="display: flex;justify-content: center;margin: 20px 0;">
+        <div style="width: 80%;background-color: #E8ECF3;padding: 20px;border-radius: 10px;">
+            <input id="title_u" type="text" placeholder="标题" style="margin-bottom: 20px;height: 30px;line-height: 30px;text-indent: 10px;border: none;width: 100%;outline: none;border-radius: 5px;">
+            <textarea id="body_u" type="text" style="margin-bottom: 20px;height: 160px;resize: vertical;text-indent: 10px;border: none;width: 100%;outline: none;border-radius: 5px;" placeholder="说点什么..."></textarea>
+            <button onclick="send()">发送</button>
+            <button onclick="reset()">重置</button>
         </div>
     </div>
     <div style="position: relative;width: 100%;display: flex;justify-content: center;align-items: center;" >
@@ -350,8 +364,16 @@
     <script>
         function $(e){ return document.getElementById(e) }
         function $c(e){ return document.getElementsByClassName(e) }
+        var mc = $("mainCont").children
+        // for(var i = 0;i<mc.length;i++){
+        //     mc[i].style.transform = "translateY("+Math.floor(Math.random()*1000+1000)+"px)"
+        // }
         window.onload = (e)=>{
             $("whiteBoard").style.left = "100vw"
+            var mc = $("mainCont").children
+            // for(var i = 0;i<mc.length;i++){
+            //     mc[i].style.transform = "translateY(0px)"
+            // }
         }
         function pageLeave(e){
             $("whiteBoard").style.left = "0vw"
@@ -394,6 +416,80 @@
         }
         function closeNotification(){
             $("notification").style.display = "none"
+        }
+    </script>
+    <script>
+        function create1(e) { return document.createElement(e) }
+        function PrefixInteger(num, length) {
+            return ( "000000000" + num ).substr( -length );
+        }
+        //提交讨论
+        function send(){
+            var e1 = create1("div")
+            e1.className = "mainCont_item"
+
+            var e2 = create1("div")
+            e2.className = "mainCont_item_title"
+            var e2_1 = create1("img")
+            e2_1.className = "avatar"
+            e2_1.src = "images/头像.png"
+            var e2_2 = create1("div")
+            e2_2.className = "title_mid"
+            var e2_2_1 = create1("span")
+            e2_2_1.style.fontWeight = "bold"
+            e2_2_1.innerHTML = $("title_u").value
+            var e2_2_2 = create1("span")
+            e2_2_2.style.fontSize = "10px"
+            e2_2_2.style.color = "gray"
+            e2_2_2.innerHTML = "发布于"+
+            PrefixInteger(new Date().getHours(),2)+
+            ":"+
+            PrefixInteger(new Date().getMinutes(),2)
+
+            e2_2.append(e2_2_1)
+            e2_2.append(e2_2_2)
+            
+
+            var e2_3 = create1("div")
+            e2_3.className = "title_tail"
+            e2_3.style.flexShrink = "0"
+            var e2_3_1 = create1("div")
+            e2_3_1.style.backgroundColor = "#03A9F4"
+            e2_3_1.style.margin = "0 10px"
+            var e2_3_2 = create1("img")
+            e2_3_2.src = "images/消息_o.png"
+            var e2_3_3 = create1("span")
+            e2_3_3.innerHTML = Math.floor(Math.random() * 400)
+            e2_3.append(e2_3_1)
+            e2_3.append(e2_3_2)
+            e2_3.append(e2_3_3)
+
+            e2.append(e2_1)
+            e2.append(e2_2)
+            e2.append(e2_3)
+
+            var e3 = create1("div")
+            e3.className = "mainCont_item_body"
+            var e3_1 = create1("div")
+            e3_1.className = "avatar"
+            e3_1.style.height = "auto"
+            var e3_2 = create1("div")
+            e3_2.classNamea = "bodyText"
+            e3_2.innerHTML = $("body_u").value
+
+            e3.append(e3_1)
+            e3.append(e3_2)
+
+            e1.append(e2)
+            e1.append(e3)
+
+            $("mainCont").insertBefore(e1,$("mainCont").children[0])
+            reset()
+
+        }
+        function reset(){
+            $("title_u").value = ""
+            $("body_u").value = ""
         }
     </script>
 </body>
