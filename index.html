@@ -83,7 +83,7 @@
             top: 0;right: 0;left: 0;bottom: 0;
             height: 100vh;
             position: fixed;
-            z-index: 9;
+            z-index: 200;
             text-align: center;
             /* line-height: 100px; */
             font-size: 150px;
@@ -101,6 +101,7 @@
             flex-direction: column;
         }
         #mainCont1{
+            z-index: 300;
             min-width: 500px;
             width: 60%;
             margin: 0 auto;
@@ -373,7 +374,7 @@
         )
         var mainTextFontSizeAni = create_LINEAR_ANIMATION(
             callback=mainTextFontSize,pre="",suf="",
-            keyframs=[{r:0,y:["none",100,1]},{r:4500,y:["flex",100,0]},{r:6200,y:["flex",1,1]},{r:6800,y:["none",1,0]}]
+            keyframs=[{r:0,y:["none",100,1]},{r:4500,y:["flex",100,0]},{r:6200,y:["flex",1,1]},{r:7900,y:["none",1,0]}]
         )
         var big2whiteAni = create_LINEAR_ANIMATION(
             callback=big2white,pre="",suf="",
