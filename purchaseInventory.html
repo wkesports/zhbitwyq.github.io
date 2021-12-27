@@ -60,8 +60,9 @@
         #avatar{
             margin-top: 100px;
             width: 150px;height: 150px;
-            border-radius: 50%;
+            border-radius: 75px;
             background-color: gold;
+            flex-shrink: 0;
         }
         #btn_list{
             margin-top: 60px;
@@ -145,41 +146,17 @@
                     <th>单价</th>
                     <th>小计</th>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td>00001</td>
                     <td>叉烧包</td>
                     <td>茶点</td>
                     <td>3</td>
                     <td>$10.00</td>
                     <td>$30.00</td>
-                </tr>
-                <tr>
-                    <td>00002</td>
-                    <td>流黄包</td>
-                    <td>茶点</td>
-                    <td>2</td>
-                    <td>5.00</td>
-                    <td>$10.00</td>
-                </tr>
-                <tr>
-                    <td>00003</td>
-                    <td>糯米糍</td>
-                    <td>茶点</td>
-                    <td>2</td>
-                    <td>$10.00</td>
-                    <td>$20.00</td>
-                </tr>
-                <tr>
-                    <td>00004</td>
-                    <td>马蹄糕</td>
-                    <td>茶点</td>
-                    <td>2</td>
-                    <td>$7.00</td>
-                    <td>$14.00</td>
-                </tr>
+                </tr> -->
             </table>
-            <h4>$74.00</h4>
-            <button>支付订单</button>
+            <h4 id="total">$74.00</h4>
+            <button id="purchase" onclick="purchase()">支付订单</button>
         </div>
     </div>
     <div id="whiteBoard"></div>
@@ -270,10 +247,75 @@
             }
         }
     </script>
+    <script src="makeinventory.js"></script>
     <script>
+        function PrefixInteger(num, length) {
+            return ( "000000000" + num ).substr( -length );
+        }
         //获取购物车内容
+        if(localStorage.getItem("inventory")==null){
+            localStorage.setItem("inventory",JSON.stringify({inventory:[]}))
+        }
+        var inventory1 = JSON.parse(localStorage.getItem("inventory"))
+        var totalSum = 0.00
+        if(inventory1.inventory.length==0){
+            $("purchase").innerHTML = "购物车为空"
+        }
+        for(var i = 0;i<inventory1.inventory.length;i++){
+            var tr1 = document.createElement("tr")
+            var td1 = document.createElement("td")
+            var td2 = document.createElement("td")
+            var td3 = document.createElement("td")
+            var td4 = document.createElement("td")
+            var td5 = document.createElement("td")
+            var td6 = document.createElement("td")
+            td1.innerHTML = PrefixInteger(i, 5)
+
+            var goods2 = findID(inventory1.inventory[i].id)
+            td2.innerHTML = goods2[0]
+            td3.innerHTML = findType(inventory1.inventory[i].id)
+            td4.innerHTML = inventory1.inventory[i].count
+            td5.innerHTML = "￥"+goods2[3].toFixed(2)
+            td6.innerHTML = "￥"+(inventory1.inventory[i].count * goods2[3]).toFixed(2)
+
+            totalSum += inventory1.inventory[i].count * goods2[3]
+
+            tr1.append(td1)
+            tr1.append(td2)
+            tr1.append(td3)
+            tr1.append(td4)
+            tr1.append(td5)
+            tr1.append(td6)
+
+            $("inventory").append(tr1)
+        }
+        $("total").innerHTML = "￥"+totalSum.toFixed(2)
+        function purchase(){
+            if(inventory1.inventory.length==0){
+                alert("购物车为空")
+                return
+            }
+            var nowOrders
+            localStorage.setItem("money", (localStorage.getItem("money")-totalSum).toFixed(2))
+            var account = JSON.parse(localStorage.getItem("accounts"))
+            var index2 = -1
+            for(var i = 0;i<account.accounts.length;i++){
+                if(account.accounts[i].id == localStorage.getItem("login_name")){
+                    console.log(account.accounts[i].orders);
+                    nowOrders = JSON.parse(account.accounts[i].orders)
+                    account.accounts[i].money = localStorage.getItem("money")
+                    index2 = i
+                    break
+                }
+            }
+            nowOrders.orders.push(inventory1.inventory)
+            account.accounts[index2].orders = JSON.stringify(nowOrders)
+            localStorage.setItem("accounts", JSON.stringify(account))
+            localStorage.setItem("inventory",JSON.stringify({inventory:[]}))
+            alert("购物成功，共花费: ￥"+totalSum.toFixed(2))
+            window.location.href = "purchaseInventory.html"
+        }
         var cs = document.getElementsByTagName("tr")
-        console.log(cs);
         for(var i = 1;i<cs.length;i++){
             if(i%2==0){
                 cs[i].style.backgroundColor = "#86c1d4"

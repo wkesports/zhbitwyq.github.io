@@ -428,7 +428,9 @@
         var e2MapID = makePurchases($("goods1"),$("goods2"), pageLeave)
         var e2Keys = Array.from(e2MapID.keys())
         for(var l of e2MapID){
-            bindEvent(l[0], "onclick", e2event, l[1])
+            bindEvent(l[0], "onclick", e2event, l[1][0])
+            l[1][1].goodsID = l[1][0]
+            bindEvent(l[1][1], "onchange", change1, l[1][0], )
         }
         //闭包绑定事件传递参数
         function bindEvent(dom, eventType, fun, args) {
@@ -440,6 +442,45 @@
         }
         function e2event(id){
             pageLeave('goodsDetail.html?goodsID='+id)
+        }
+        //购物车
+        if(localStorage.getItem("inventory")==null){
+            localStorage.setItem("inventory",JSON.stringify({inventory:[]}))
+        }
+        var inventory1 = JSON.parse(localStorage.getItem("inventory"))
+        var inputs = document.getElementsByTagName("input")
+        for(var i = 0;i < inventory1.inventory.length;i++){
+            for(var j = 0;j<inputs.length;j++){
+                if(inputs[j].goodsID == inventory1.inventory[i].id){
+                    inputs[j].value = inventory1.inventory[i].count
+                    break
+                }
+            }
+        }
+        function change1(id1){
+            //修改商品
+            if(this.value<0){
+                this.value = 0
+            }
+            var index1 = findExist(id1)
+            if(index1 == -1){
+                inventory1.inventory.push({id: id1, count: this.value})
+            }else{
+                if(this.value <= 0){
+                    inventory1.inventory.splice(index1)
+                }else{
+                    inventory1.inventory[index1].count = this.value
+                }
+            }
+            localStorage.setItem("inventory", JSON.stringify(inventory1))
+        }
+        function findExist(id){
+            for(var i = 0;i<inventory1.inventory.length;i++){
+                if(inventory1.inventory[i].id == id){
+                    return i
+                }
+            }
+            return -1
         }
     </script>
     <script>

@@ -62,6 +62,8 @@
             width: 150px;height: 150px;
             border-radius: 50%;
             background-color: gold;
+            flex-shrink: 0;
+
         }
         #btn_list{
             margin-top: 60px;
@@ -145,78 +147,7 @@
                     <th>详情</th>
                     <th>总计</th>
                 </tr>
-                <tr class="orders_item">
-                    <td>00001</td>
-                    <td>
-                        <table class="order">
-                            <tr>
-                                <th>编号</th>
-                                <th>商品名称</th>
-                                <th>商品类型</th>
-                                <th>商品单价</th>
-                                <th>商品数量</th>
-                                <th>小计</th>
-                            </tr>
-                            <tr>
-                                <td>00001</td>
-                                <td>叉烧包</td>
-                                <td>茶点</td>
-                                <td>3</td>
-                                <td>$10.00</td>
-                                <td>$30.00</td>
-                            </tr>
-                            <tr>
-                                <td>00002</td>
-                                <td>叉烧包</td>
-                                <td>茶点</td>
-                                <td>3</td>
-                                <td>$10.00</td>
-                                <td>$30.00</td>
-                            </tr>
-                            <tr>
-                                <td>00003</td>
-                                <td>叉烧包</td>
-                                <td>茶点</td>
-                                <td>3</td>
-                                <td>$10.00</td>
-                                <td>$30.00</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td>$90.00</td>
-                </tr>
-                <tr class="orders_item">
-                    <td>00002</td>
-                    <td>
-                        <table class="order">
-                            <tr>
-                                <th>编号</th>
-                                <th>商品名称</th>
-                                <th>商品类型</th>
-                                <th>商品单价</th>
-                                <th>商品数量</th>
-                                <th>小计</th>
-                            </tr>
-                            <tr>
-                                <td>00001</td>
-                                <td>叉烧包</td>
-                                <td>茶点</td>
-                                <td>3</td>
-                                <td>$10.00</td>
-                                <td>$30.00</td>
-                            </tr>
-                            <tr>
-                                <td>00002</td>
-                                <td>叉烧包</td>
-                                <td>茶点</td>
-                                <td>3</td>
-                                <td>$10.00</td>
-                                <td>$30.00</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td>$60.00</td>
-                </tr>
+                
             </table>
         </div>
     </div>
@@ -306,7 +237,87 @@
             }
         }
     </script>
+    <script src="makeinventory.js"></script>
     <script>
+        function PrefixInteger(num, length) {
+            return ( "000000000" + num ).substr( -length );
+        }
+        //读取订单
+        var accounts = JSON.parse(localStorage.getItem("accounts"))
+        var orders
+        console.log(accounts);
+        for(var i = 0;i<accounts.accounts.length;i++){
+            if(localStorage.getItem("login_name") == accounts.accounts[i].id){
+                orders = JSON.parse(accounts.accounts[i].orders)
+            }
+        }
+        for (var i = 0;i<orders.orders.length;i++){
+            var ord_itm = document.createElement("tr")
+            ord_itm.className = "orders_item"
+            var td1 = document.createElement("td")
+            td1.innerHTML = PrefixInteger(i,5)
+            var td2_ = document.createElement("td")
+
+            var tb1 = document.createElement("table")
+            tb1.className = "order"
+            var tb1r1 = document.createElement("tr")
+            var tb1r1th1 = document.createElement("th")
+            tb1r1th1.innerHTML = "编号"
+            var tb1r1th2 = document.createElement("th")
+            tb1r1th2.innerHTML = "商品名称"
+            var tb1r1th3 = document.createElement("th")
+            tb1r1th3.innerHTML = "商品类型"
+            var tb1r1th4 = document.createElement("th")
+            tb1r1th4.innerHTML = "商品单价"
+            var tb1r1th5 = document.createElement("th")
+            tb1r1th5.innerHTML = "商品数量"
+            var tb1r1th6 = document.createElement("th")
+            tb1r1th6.innerHTML = "小计"
+            tb1r1.append(tb1r1th1)
+            tb1r1.append(tb1r1th2)
+            tb1r1.append(tb1r1th3)
+            tb1r1.append(tb1r1th4)
+            tb1r1.append(tb1r1th5)
+            tb1r1.append(tb1r1th6)
+            tb1.append(tb1r1)
+            var totalSum_ = 0
+            console.log(orders.orders[i]);
+
+            for(var j = 0;j<orders.orders[i].length;j++){
+                var tr1 = document.createElement("tr")
+                var td1_ = document.createElement("td")
+                var td2 = document.createElement("td")
+                var td3 = document.createElement("td")
+                var td4 = document.createElement("td")
+                var td5 = document.createElement("td")
+                var td6 = document.createElement("td")
+                td1_.innerHTML = PrefixInteger(j, 5)
+
+                var goods2 = findID(orders.orders[i][j].id)
+                td2.innerHTML = goods2[0]
+                td3.innerHTML = findType(orders.orders[i][j].id)
+                td4.innerHTML = orders.orders[i][j].count
+                td5.innerHTML = "￥"+goods2[3].toFixed(2)
+                td6.innerHTML = "￥"+(orders.orders[i][j].count * goods2[3]).toFixed(2)
+
+                totalSum_ += orders.orders[i][j].count * goods2[3]
+
+                tr1.append(td1_)
+                tr1.append(td2)
+                tr1.append(td3)
+                tr1.append(td4)
+                tr1.append(td5)
+                tr1.append(td6)
+                tb1.append(tr1)
+            }
+            td2_.append(tb1)
+            var td3 = document.createElement("td")
+            td3.innerHTML = "￥"+totalSum_.toFixed(2)
+            ord_itm.append(td1)
+            ord_itm.append(td2_)
+            ord_itm.append(td3)
+            $("orders").append(ord_itm)
+        }
         var cs = $("orders")
         console.log(cs);
         for(var i = 1;i<cs.length;i++){

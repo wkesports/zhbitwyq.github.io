@@ -188,6 +188,7 @@
             obj.id = id
             obj.password = pwd
             obj.money = (Math.random() * 20000 + 20000).toFixed(2)
+            obj.orders = JSON.stringify({orders: []})
             return obj
         }
         function registAccount(){
@@ -229,7 +230,7 @@
             localStorage.removeItem("accounts")
             localStorage.removeItem("login_name")
             localStorage.removeItem("money")
-            window.location.href = "login.html"
+            window.location.href = window.location.href
         }
     </script>
     <script>
