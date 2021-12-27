@@ -1,11 +1,12 @@
 /**Author: PB666 */
+/**https://github.com/PotatoB6 */
 setInterval(()=>{
     vh = document.documentElement.clientHeight
     vw = document.documentElement.clientWidth
 },500)
-var onLoadCallBack = null
-var onScrollCallBack = null
-var onResizeCallBack = null
+var onLoadCallBack = (e)=>{ }
+var onScrollCallBack = (e)=>{ }
+var onResizeCallBack = (e)=>{ }
 window.onload=(e)=>{
     scrollTop = document.documentElement.scrollTop;
     for(var i=0;i<scroll_KEYFRAME_anis.length;i++){

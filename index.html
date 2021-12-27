@@ -81,10 +81,11 @@
         }
         #mainText{
             top: 0;right: 0;left: 0;bottom: 0;
+            height: 100vh;
             position: fixed;
             z-index: 9;
             text-align: center;
-            line-height: 100vh;
+            /* line-height: 100px; */
             font-size: 150px;
             transform: scale(6);
             word-break: keep-all;
@@ -95,6 +96,9 @@
             -webkit-user-select: none;
             font-family: "黑体";
             color: white;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
         #mainCont1{
             min-width: 500px;
@@ -185,6 +189,17 @@
             transition: all 1s;
             transform: scale(0);
         }
+        #rainbow_cont{
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            left: 100vw;
+            top: 0;
+        }
+        .rainbow{
+            width: 100%;
+            height: 20vh;
+        }
     </style>
 </head>
 <body>
@@ -232,7 +247,17 @@
         <div class="nagivator_item" onclick="aboutDis()">关于</div>
     </div>
     <div id="bigwhite"></div>
-    <div id="mainText">早茶</div>
+    <div id="mainText">
+        <p style="font-family: Arial, Helvetica, sans-serif;">Hello</p>
+        <p>早茶</p>
+    </div>
+    <div id="rainbow_cont">
+        <div class="rainbow" style="background-color: #e61c5d;"></div>
+        <div class="rainbow" style="background-color: #ff9a00;"></div>
+        <div class="rainbow" style="background-color: #10ddc2;"></div>
+        <div class="rainbow" style="background-color: #3f72af;"></div>
+        <div class="rainbow" style="background-color: #a393eb;"></div>
+    </div>
     <div id="mainCont1">
         <div id="pin"></div>
         <h2>简介</h2>
@@ -247,7 +272,7 @@
     </div>
 
     <div id="about" style="opacity: 0"></div>
-
+    
     <div id="whiteBoard">
         <div style="background-color: white;width: 300vh;height: 300vh;border-radius: 50%;"></div>
     </div>
@@ -325,6 +350,13 @@
         function mainCont1Width(e,r){
             e.style.width = r[0]+"%"
         }
+        function rainbow(e,r,b,o){
+            var rbs = $("rainbow_cont").children
+            for(var i = 0;i<rbs.length;i++){
+                // rbs[i].style.transform = "translateX("+i * 100+"px)"
+                rbs[i].style.transform = "translateX("+o.get(o,scrollTop - i * 200)+"vw)"
+            }
+        }
     </script>
     <script>
         //创建动画
@@ -342,7 +374,7 @@
         )
         var mainTextFontSizeAni = create_LINEAR_ANIMATION(
             callback=mainTextFontSize,pre="",suf="",
-            keyframs=[{r:0,y:["none",100,1]},{r:4500,y:["block",100,0]},{r:6200,y:["block",1,1]},{r:6800,y:["none",1,0]}]
+            keyframs=[{r:0,y:["none",100,1]},{r:4500,y:["flex",100,0]},{r:6200,y:["flex",1,1]},{r:6800,y:["none",1,0]}]
         )
         var big2whiteAni = create_LINEAR_ANIMATION(
             callback=big2white,pre="",suf="",
@@ -359,6 +391,10 @@
         var tipsDisappearAni = create_LINEAR_ANIMATION(
             callback=tipsDisappear,pre="",suf="",
             keyframs=[{r:0,y:[1]},{r:300,y:[0]}]
+        )
+        var Rainbow = create_LINEAR_ANIMATION(
+            callback=rainbow,pre="",suf="",
+            keyframs=[{r:6200,y:[0]},{r:7000,y:[-100]}]
         )
         p1.element = a1
         p2.element = a1
@@ -377,6 +413,7 @@
         scroll_KEYFRAME_anis.push(pinScaleAni)
         scroll_KEYFRAME_anis.push(mainCont1WidthAni)
         scroll_KEYFRAME_anis.push(tipsDisappearAni)
+        scroll_KEYFRAME_anis.push(Rainbow)
 
     </script>
 </body>
