@@ -297,6 +297,10 @@
                 alert("购物车为空")
                 return
             }
+            if(localStorage.getItem("money")-totalSum < 0){
+                alert("余额不足，无法支付 ")
+                return
+            }
             var nowOrders
             localStorage.setItem("money", (localStorage.getItem("money")-totalSum).toFixed(2))
             var account = JSON.parse(localStorage.getItem("accounts"))
